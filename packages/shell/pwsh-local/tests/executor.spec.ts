@@ -187,6 +187,18 @@ describe('spawn construction (pure, every platform)', () => {
     expect(ENCODING_PREAMBLE).toContain('[Console]::OutputEncoding')
     expect(ENCODING_PREAMBLE).toContain('$OutputEncoding')
   })
+
+  it('carries a FORCE_COLOR tombstone beside NO_COLOR into the spawn env', async () => {
+    const ctx = new Context()
+    const subprocess = new CapturingSubprocessRuntime(ctx)
+    await ctx.plugin(PwshLocalExecutor)
+    await ctx.shell.run(ctx.shell.resolve({ command: 'Write-Output hi' }))
+    const { env } = subprocess.specs[0]!
+    expect(env?.NO_COLOR).toBe('1')
+    // A present key holding undefined is what makes childEnv delete the ambient entry.
+    expect(env !== undefined && 'FORCE_COLOR' in env).toBe(true)
+    expect(env?.FORCE_COLOR).toBeUndefined()
+  })
 })
 
 describe.skipIf(!hasPwsh)('PwshLocalExecutor.run', () => {

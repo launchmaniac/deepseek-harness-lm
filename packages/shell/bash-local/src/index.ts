@@ -23,9 +23,14 @@ import { clampTimeout, deadline, MAX_TIMER_DELAY_MS, timeoutOf } from '@deepseek
  * Codex hardcodes; Claude Code achieves it via TERM=dumb). Bash-tool policy —
  * merged first into the spawn's explicit env, so a trusted caller's own entry
  * still wins; the subprocess service applies its credential scrub independently.
+ *
+ * `FORCE_COLOR` is a tombstone, not a value: Node ignores `NO_COLOR` whenever
+ * `FORCE_COLOR` is also set, so one inherited from the launching terminal would
+ * keep colors on and add a warning line to every Node child's stderr.
  */
 export const ENV_OVERRIDES = {
   NO_COLOR: '1',
+  FORCE_COLOR: undefined,
   TERM: 'dumb',
   PAGER: 'cat',
   GIT_PAGER: 'cat',

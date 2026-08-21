@@ -19,11 +19,16 @@ function isUnknownArray(value: unknown): value is unknown[] {
   return Array.isArray(value)
 }
 
+// Node ignores NO_COLOR when FORCE_COLOR is also set and warns about it on
+// stderr, so assertions on these subprocesses must not inherit the caller's.
+const inheritedEnv: NodeJS.ProcessEnv = { ...process.env }
+delete inheritedEnv.FORCE_COLOR
+
 function runRepositoryOxlint(args: readonly string[], env: NodeJS.ProcessEnv = {}) {
   return spawnSync(process.execPath, [tsxCli, 'scripts/run-oxlint.ts', ...args], {
     cwd: repositoryRoot,
     encoding: 'utf8',
-    env: { ...process.env, NO_COLOR: '1', ...env },
+    env: { ...inheritedEnv, NO_COLOR: '1', ...env },
   })
 }
 
@@ -31,7 +36,7 @@ function runOxlint(args: readonly string[], env: NodeJS.ProcessEnv = {}) {
   return spawnSync(process.execPath, [oxlintCli, ...args], {
     cwd: repositoryRoot,
     encoding: 'utf8',
-    env: { ...process.env, NO_COLOR: '1', ...env },
+    env: { ...inheritedEnv, NO_COLOR: '1', ...env },
   })
 }
 

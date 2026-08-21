@@ -156,6 +156,17 @@ describe('LocalBashExecutor.run', () => {
     expect('env' in spec).toBe(false)
     expect('dshEnv' in spec).toBe(false)
   })
+
+  it('drops an ambient FORCE_COLOR so NO_COLOR reaches the command intact', async () => {
+    const { bash } = await setup()
+    process.env.FORCE_COLOR = '3'
+    try {
+      const result = await bash.run(bash.resolve({ command: 'echo "[${FORCE_COLOR-unset}][$NO_COLOR]"' }))
+      expect(result.stdout.text).toBe('[unset][1]\n')
+    } finally {
+      delete process.env.FORCE_COLOR
+    }
+  })
 })
 
 describe('LocalBashExecutor.start (background process handles)', () => {

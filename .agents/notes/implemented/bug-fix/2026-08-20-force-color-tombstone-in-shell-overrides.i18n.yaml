@@ -1,0 +1,6 @@
+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
+# side as of the last confirmed-consistent state. Both languages carry equal authority;
+# after editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/implemented/bug-fix/2026-08-20-force-color-tombstone-in-shell-overrides.md
+2026-08-20-force-color-tombstone-in-shell-overrides.md: ed01c77d2faf02e9e578852725a0c699a968d480
+2026-08-20-force-color-tombstone-in-shell-overrides.zh.md: 952029e15e5b5e5e63c031e56c6cd1694044799c
