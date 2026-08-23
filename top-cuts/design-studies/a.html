@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Top Cuts — Main Street, Hazard KY · Est. 2016</title>
+<meta name="description" content="Top Cuts — a hometown barbershop on Main Street, Hazard KY. Two master stylists, honest prices, walk-ins welcome. Color services by appointment." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400;9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Design tokens — "Hometown Heritage"
+   Cream paper, espresso ink, copper/barn-red accent,
+   Fraunces serif, hand-painted-sign letterpress feel.
+   ============================================================ */
+:root{
+  --paper:        #faf5ea;   /* cream "newsprint" */
+  --paper-deep:   #f3ead7;   /* shaded cream */
+  --paper-edge:   #ecdfc1;   /* paper grain edge */
+  --ink:          #2a1a10;   /* deep espresso ink */
+  --ink-soft:     #4b3526;   /* secondary ink */
+  --ink-fade:     #7a604c;   /* faded ink, captions */
+  --copper:       #b85a2a;   /* barn-red / copper accent */
+  --copper-deep:  #8a3f1c;
+  --moss:         #6a7a3a;   /* supporting tone */
+  --gold:         #b8893a;   /* ticket-stub accent */
+
+  --serif:  "Fraunces", "Playfair Display", Georgia, "Times New Roman", serif;
+  --sans:   "Inter", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 72px;
+
+  --maxw: 1180px;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.55;
+  color:var(--ink);
+  background:var(--paper);
+  /* subtle paper grain via two layered gradients */
+  background-image:
+    radial-gradient(rgba(42,26,16,.045) 1px, transparent 1px),
+    radial-gradient(rgba(184,90,42,.035) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 2px;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img,svg{max-width:100%;display:block}
+a{color:var(--copper-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--ink)}
+:focus-visible{
+  outline:3px solid var(--copper);
+  outline-offset:3px;
+  border-radius:4px;
+}
+
+/* Typography */
+h1,h2,h3,h4{
+  font-family:var(--serif);
+  color:var(--ink);
+  font-weight:700;
+  letter-spacing:-0.01em;
+  line-height:1.1;
+  margin:0 0 var(--s-3);
+  font-variation-settings:"opsz" 96, "SOFT" 30, "WONK" 1;
+}
+h1{font-size:clamp(2.4rem, 6vw, 4.4rem); font-weight:900}
+h2{font-size:clamp(1.7rem, 3.2vw, 2.6rem)}
+h3{font-size:1.25rem}
+h4{font-size:1.05rem; font-family:var(--sans); letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:600}
+p{margin:0 0 var(--s-3)}
+
+/* Container */
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--s-5)}
+@media (min-width:800px){ .wrap{padding:0 var(--s-6)} }
+
+/* Utility */
+.eyebrow{
+  font-family:var(--serif);
+  font-weight:500;
+  font-style:italic;
+  color:var(--copper-deep);
+  letter-spacing:.02em;
+  font-size:.95rem;
+}
+.divider-rule{
+  display:flex; align-items:center; gap:var(--s-3);
+  color:var(--ink-fade);
+  margin:var(--s-5) 0;
+}
+.divider-rule::before,.divider-rule::after{
+  content:""; flex:1; height:0;
+  border-top:1px dashed var(--ink-fade);
+  opacity:.6;
+}
+.divider-rule span{
+  font-family:var(--serif); font-style:italic; font-size:.85rem;
+  letter-spacing:.08em; text-transform:uppercase;
+}
+
+/* ============================================================
+   Nav — sticky, paper with stitched bottom
+   ============================================================ */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:var(--paper);
+  border-bottom:1px solid var(--paper-edge);
+  /* stitched bottom border */
+  background-image:
+    linear-gradient(var(--paper), var(--paper)),
+    repeating-linear-gradient(90deg, var(--ink) 0 4px, transparent 4px 10px);
+  background-size: 100% 100%, 100% 1px;
+  background-position: 0 0, 0 100%;
+  background-repeat: no-repeat, repeat-x;
+}
+.nav-inner{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:var(--s-3) var(--s-5);
+  gap:var(--s-4);
+}
+.brand{
+  display:flex; align-items:center; gap:var(--s-3);
+  text-decoration:none; color:var(--ink);
+}
+.brand-mark{
+  width:38px; height:38px; border-radius:50%;
+  background:var(--ink); color:var(--paper);
+  display:grid; place-items:center;
+  font-family:var(--serif); font-weight:900; font-size:1.1rem;
+  letter-spacing:-.02em;
+  border:2px solid var(--copper);
+  box-shadow: inset 0 0 0 2px var(--paper);
+}
+.brand-text{ display:flex; flex-direction:column; line-height:1; }
+.brand-text strong{
+  font-family:var(--serif); font-weight:900; font-size:1.15rem;
+  letter-spacing:-.01em;
+}
+.brand-text small{
+  font-family:var(--serif); font-style:italic; font-size:.72rem;
+  color:var(--ink-fade); letter-spacing:.08em;
+}
+.nav-links{
+  display:none;
+  gap:var(--s-5);
+  align-items:center;
+}
+.nav-links a{
+  font-family:var(--serif); font-weight:500;
+  color:var(--ink); text-decoration:none;
+  font-size:1rem;
+  padding:6px 0;
+  border-bottom:2px solid transparent;
+}
+.nav-links a:hover{ color:var(--copper-deep); border-bottom-color:var(--copper) }
+.nav-links .portal{
+  font-family:var(--sans); font-size:.8rem; letter-spacing:.08em;
+  text-transform:uppercase;
+  border:1px solid var(--ink); padding:8px 14px;
+  border-radius:var(--r-sm);
+}
+.nav-links .portal:hover{ background:var(--ink); color:var(--paper) }
+
+@media (min-width:820px){ .nav-links{display:flex} }
+
+.menu-btn{
+  background:transparent; border:1px solid var(--ink); border-radius:var(--r-sm);
+  padding:8px 10px; cursor:pointer; color:var(--ink);
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:var(--sans); font-size:.85rem;
+}
+@media (min-width:820px){ .menu-btn{display:none} }
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero{
+  position:relative;
+  padding:var(--s-8) 0 var(--s-7);
+  overflow:hidden;
+}
+.hero::before{
+  /* large faint watermark "TC" */
+  content:"";
+  position:absolute; right:-60px; top:20px;
+  width:420px; height:420px;
+  background:
+    radial-gradient(circle, transparent 38%, rgba(42,26,16,.06) 39%, rgba(42,26,16,.06) 41%, transparent 42%),
+    conic-gradient(from 0deg, transparent 0 88deg, rgba(184,90,42,.08) 88deg 92deg, transparent 92deg 178deg, rgba(184,90,42,.08) 178deg 182deg, transparent 182deg 268deg, rgba(184,90,42,.08) 268deg 272deg, transparent 272deg 358deg, rgba(184,90,42,.08) 358deg 360deg);
+  border-radius:50%;
+  pointer-events:none;
+}
+.hero-grid{
+  display:grid; gap:var(--s-6);
+  align-items:center;
+  grid-template-columns:1fr;
+}
+@media (min-width:900px){
+  .hero-grid{ grid-template-columns: 1.25fr .9fr; gap:var(--s-7) }
+}
+
+.walkin-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  border-radius:999px;
+  padding:6px 14px;
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:.95rem;
+  color:var(--ink);
+  margin-bottom:var(--s-4);
+  box-shadow: 3px 3px 0 var(--ink);
+  transform: rotate(-1.2deg);
+}
+.walkin-badge .dot{
+  width:8px; height:8px; border-radius:50%;
+  background:var(--copper);
+  box-shadow: 0 0 0 3px rgba(184,90,42,.2);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{ transform:scale(1) }
+  50%{ transform:scale(1.25) }
+}
+
+.hero h1 .ampersand{
+  font-style:italic; color:var(--copper-deep);
+  font-variation-settings:"opsz" 144, "SOFT" 100, "WONK" 1;
+}
+.hero .subline{
+  font-family:var(--serif); font-size:1.25rem; color:var(--ink-soft);
+  max-width:46ch; line-height:1.45; margin-bottom:var(--s-5);
+}
+.hero .subline em{ color:var(--copper-deep); font-style:italic; font-weight:500 }
+
+.ctas{ display:flex; flex-wrap:wrap; gap:var(--s-3); margin-top:var(--s-4) }
+
+.btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--sans); font-weight:600; font-size:.95rem;
+  letter-spacing:.02em;
+  padding:14px 22px;
+  border-radius:var(--r-md);
+  text-decoration:none;
+  cursor:pointer;
+  border:1.5px solid transparent;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:hover{ transform: translate(-1px,-1px) }
+.btn-primary{
+  background:var(--ink); color:var(--paper);
+  border-color:var(--ink);
+  box-shadow: 4px 4px 0 var(--copper);
+}
+.btn-primary:hover{ background:var(--copper-deep); box-shadow: 5px 5px 0 var(--ink) }
+.btn-ghost{
+  background:transparent; color:var(--ink);
+  border-color:var(--ink);
+}
+.btn-ghost:hover{ background:var(--paper-deep) }
+
+/* Hero ticket-stub card */
+.ticket{
+  position:relative;
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:var(--s-5);
+  box-shadow: 6px 6px 0 var(--ink);
+  transform: rotate(1.5deg);
+}
+.ticket::before, .ticket::after{
+  content:""; position:absolute; top:50%; width:18px; height:18px;
+  background:var(--paper); border:1.5px solid var(--ink); border-radius:50%;
+  transform: translateY(-50%);
+}
+.ticket::before{ left:-10px }
+.ticket::after{ right:-10px }
+
+.ticket-head{
+  display:flex; justify-content:space-between; align-items:baseline;
+  border-bottom:1px dashed var(--ink-fade);
+  padding-bottom:var(--s-3); margin-bottom:var(--s-3);
+}
+.ticket-head .num{
+  font-family:var(--serif); font-weight:900; font-size:2.4rem;
+  color:var(--copper-deep); letter-spacing:-.02em;
+  line-height:1;
+}
+.ticket-head .label{
+  font-family:var(--serif); font-style:italic; color:var(--ink-soft);
+  font-size:.9rem;
+}
+.ticket ul{ list-style:none; margin:0; padding:0 }
+.ticket li{
+  display:flex; justify-content:space-between;
+  padding:6px 0;
+  border-bottom:1px dotted var(--paper-edge);
+  font-family:var(--serif); font-size:1rem;
+}
+.ticket li:last-child{ border-bottom:0 }
+.ticket li span{ color:var(--ink-soft) }
+.ticket li b{ font-weight:700 }
+.ticket .stub{
+  margin-top:var(--s-3); padding-top:var(--s-3);
+  border-top:1.5px dashed var(--ink);
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:var(--serif); font-style:italic; font-size:.85rem;
+  color:var(--ink-fade);
+}
+
+/* ============================================================
+   Trust bar
+   ============================================================ */
+.trust{
+  background:var(--ink);
+  color:var(--paper);
+  padding:var(--s-4) 0;
+}
+.trust-inner{
+  display:flex; flex-wrap:wrap; gap:var(--s-4) var(--s-6);
+  align-items:center; justify-content:center;
+  font-family:var(--serif);
+}
+.trust-item{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:1rem; letter-spacing:.01em;
+}
+.trust-item svg{ color:var(--copper) }
+.trust-item b{ color:var(--paper); font-weight:700 }
+.trust-item .sep{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--copper);
+}
+
+/* ============================================================
+   Services — ticket / price-board
+   ============================================================ */
+.section{ padding:var(--s-7) 0 }
+.section-head{
+  text-align:center;
+  max-width:640px; margin:0 auto var(--s-6);
+}
+.section-head .eyebrow{ display:block; margin-bottom:var(--s-2) }
+.section-head h2{ margin-bottom:var(--s-3) }
+.section-head p{ color:var(--ink-soft); font-size:1.05rem }
+
+.board{
+  background:var(--paper-deep);
+  border:1.5px solid var(--ink);
+  border-radius:var(--r-md);
+  padding:var(--s-5);
+  position:relative;
+  box-shadow: 6px 6px 0 var(--ink);
+}
+.board::before{
+  /* corner staple */
+  content:""; position:absolute; top:-6px; left:24px;
+  width:18px; height:6px;
+  background:var(--copper); border:1px solid var(--ink);
+  border-radius:2px;
+  transform: rotate(-8deg);
+}
+
+.board-tabs{
+  display:flex; flex-wrap:wrap; gap:var(--s-2);
+  margin-bottom:var(--s-5);
+  padding-bottom:var(--s-3);
+  border-bottom:1px dashed var(--ink);
+}
+.tab{
+  font-family:var(--serif); font-style:italic; font-weight:500;
+  font-size:1rem;
+  padding:6px 14px;
+  border-radius:999px;
+  border:1.5px solid var(--ink);
+  color:var(--ink);
+  background:var(--paper);
+}
+.tab.warm{
+  background:var(--ink); color:var(--paper);
+}
+.tab small{
+  font-family:var(--sans); font-style:normal; font-size:.7rem;
+  letter-spacing:.08em; text-transform:uppercase;
+  margin-left:6px; opacity:.85;
+}
+
+.price-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:var(--s-5);
+}
+@media (min-width:720px){
+  .price-grid{ grid-template-columns: 1fr 1fr; }
+}
+
+.price-list{
+  background:var(--paper);
+  border:1px dashed var(--ink);
+  border-radius:var(--r-md);
+  padding:var(--s-5);
+}
+.price-list h3{
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:var(--s-4);
+  font-family:var(--serif); font-size:1.4rem;
+}
+.price-list h3 .star{
+  color:var(--copper);
+}
+.price-list .row{
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:10px 0;
+  border-bottom:1px dotted var(--paper-edge);
+  gap:var(--s-3);
+}
+.price-list .row:last-of-type{ border-bottom:0 }
+.price-list .name{
+  font-family:var(--serif); font-weight:500; font-size:1.05rem;
+  color:var(--ink);
+}
+.price-list .name small{
+  display:block; font-family:var(--sans); font-weight:400;
+  font-size:.78rem; color:var(--ink-fade); margin-top:2px;
+}
+.price-list .price{
+  font-family:var(--serif); font-weight:700; font-size:1.15rem;
+  color:var(--copper-deep);
+  white-space:nowrap;
+}
+.price-list .price .cents{
+  font-size:.7em; opacity:.7;
+}
+.price-list .note{
+  margin-top:var(--s-4); padding-top:var(--s-3);
+  border-top:1px dashed var(--ink-fade);
+  font-family:var(--serif); font-style:italic; font-size:.9rem;
+  color:var(--ink-soft);
+}
+
+.appointment-note{
+  margin-top:var(--s-5);
+  padding:var(--s-5);
+  background:var(--paper);
+  border:1.5px solid var(--copper);
+  border-radius:var(--r-md);
+  display:grid; gap:var(--s-4);
+  grid-template-columns: 1fr;
+  align-items:start;
+}
+@media (min-width:760px){
+  .appointment-note{ grid-template-columns: 56px 1fr auto; align-items:center }
+}
+.appointment-note .icon{
+  width:48px; height:48px; border-radius:50%;
+  background:var(--copper); color:var(--paper);
+  display:grid; place-items:center;
+  border:2px solid var(--ink);
+}
+.appointment-note h4{
+  margin:0 0 4px;
+  color:var(--ink); font-family:var(--serif);
+  font-size:1.2rem; text-transform:none; letter-spacing:0;
+}
+.appointment-note p{
+  margin:0; color:var(--ink-soft); font-size:.95rem;
+}
+
+/* ============================================================
+   Stylists — chair cards
+   ============================================================ */
+.chairs{
+  display:grid; gap:var(--s-5);
+  grid-template-columns:1fr;
+}
+@media (min-width:760px){ .chairs{ grid-template-columns: 1fr 1fr } }
+
+.chair{
+  background:var(--paper);
+  border:1.5px solid var(--ink);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  position:relative;
+  box-shadow: 6px 6px 0 var(--ink);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.chair:hover{
+  transform: translate(-2px,-2px);
+  box-shadow: 8px 8px 0 var(--copper);
+}
+.chair-portrait{
+  position:relative;
+  aspect-ratio: 4/3;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(184,90,42,.18), transparent 55%),
+    repeating-linear-gradient(45deg, var(--paper-deep) 0 8px, var(--paper) 8px 16px);
+  display:grid; place-items:center;
+  border-bottom:1.5px solid var(--ink);
+}
+.chair-portrait .badge{
+  position:absolute; top:14px; left:14px;
+  background:var(--ink); color:var(--paper);
+  font-family:var(--serif); font-weight:700; font-size:.85rem;
+  padding:4px 10px; border-radius:999px;
+  letter-spacing:.04em;
+}
+.chair-portrait .silhouette{
+  width:60%; max-width:220px;
+  opacity:.92;
+}
+.chair-body{ padding:var(--s-5) }
+.chair-body h3{
+  font-family:var(--serif); font-size:1.5rem;
+  margin-bottom:4px;
+}
+.chair-body .role{
+  font-family:var(--serif); font-style:italic;
+  color:var(--copper-deep); margin-bottom:var(--s-3);
+}
+.chair-body p{ color:var(--ink-soft); font-size:.95rem; margin-bottom:var(--s-4) }
+.chair-body .stats{
+  display:flex; gap:var(--s-4); padding-top:var(--s-3);
+  border-top:1px dashed var(--ink-fade);
+  font-family:var(--serif); font-size:.9rem; color:var(--ink-soft);
+}
+.chair-body .stats b{ color:var(--ink); font-weight:700; display:block; font-size:1.15rem }
+
+/* ============================================================
+   Hours + location
+   ============================================================ */
+.hl{
+  background:var(--ink); color:var(--paper);
+  padding:var(--s-7) 0;
+  position:relative;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(184,90,42,.06) 0 12px, transparent 12px 24px);
+}
+.hl-grid{
+  display:grid; gap:var(--s-6);
+  grid-template-columns:1fr;
+}
+@media (min-width:820px){
+  .hl-grid{ grid-template-columns: 1.1fr 1fr; gap:var(--s-7) }
+}
+.hl h2{ color:var(--paper) }
+.hl h2 .ampersand{ color:var(--copper) }
+.hl-card{
+  background:var(--ink);
+  color:var(--paper);
+  border:1.5px solid var(--copper);
+  border-radius:var(--r-md);
+  padding:var(--s-5);
+}
+.hl-card h3{
+  color:var(--paper); font-family:var(--serif); font-size:1.3rem;
+  border-bottom:1px dashed var(--copper);
+  padding-bottom:var(--s-3); margin-bottom:var(--s-4);
+}
+.hours-list{ list-style:none; margin:0; padding:0 }
+.hours-list li{
+  display:flex; justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px dotted rgba(250,245,234,.15);
+  font-family:var(--serif);
+}
+.hours-list li:last-child{ border-bottom:0 }
+.hours-list .day{ font-weight:500 }
+.hours-list .today{
+  background:rgba(184,90,42,.18);
+  margin:0 -10px; padding:8px 10px; border-radius:4px;
+}
+.hours-list .today::before{
+  content:"•"; color:var(--copper); margin-right:6px;
+}
+
+.loc-card{
+  background:var(--paper);
+  color:var(--ink);
+  border:1.5px solid var(--paper);
+  border-radius:var(--r-md);
+  padding:var(--s-5);
+  box-shadow: 6px 6px 0 var(--copper);
+}
+.loc-card .map{
+  aspect-ratio: 5/3;
+  background:
+    linear-gradient(transparent 49%, rgba(42,26,16,.18) 50%, transparent 51%),
+    linear-gradient(90deg, transparent 49%, rgba(42,26,16,.18) 50%, transparent 51%),
+    repeating-linear-gradient(0deg, var(--paper-deep) 0 24px, var(--paper) 24px 48px);
+  background-size: 100% 24px, 24px 100%, auto;
+  border:1px dashed var(--ink);
+  border-radius:var(--r-sm);
+  margin-bottom:var(--s-4);
+  position:relative;
+}
+.loc-card .pin{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-100%);
+  width:32px; height:32px;
+  color:var(--copper-deep);
+}
+.loc-card address{
+  font-style:normal; font-family:var(--serif); font-size:1.1rem;
+  line-height:1.4;
+}
+.loc-card .city{ color:var(--ink-fade); font-style:italic }
+.loc-card .row{
+  display:flex; justify-content:space-between; gap:var(--s-3);
+  padding-top:var(--s-3); margin-top:var(--s-3);
+  border-top:1px dashed var(--ink-fade);
+  font-family:var(--serif); font-size:.95rem; color:var(--ink-soft);
+}
+.loc-card .row a{ color:var(--copper-deep) }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.footer{
+  background:var(--paper-deep);
+  border-top:1px dashed var(--ink);
+  padding:var(--s-6) 0 var(--s-5);
+}
+.footer-inner{
+  display:grid; gap:var(--s-5);
+  grid-template-columns:1fr;
+}
+@media (min-width:760px){
+  .footer-inner{ grid-template-columns: 1.4fr 1fr 1fr }
+}
+.footer h4{ color:var(--ink) }
+.footer p, .footer li{ color:var(--ink-soft); font-size:.92rem }
+.footer ul{ list-style:none; padding:0; margin:0 }
+.footer ul li{ padding:4px 0 }
+.footer ul a{ text-decoration:none }
+.footer ul a:hover{ color:var(--copper-deep) }
+.footer-tag{
+  font-family:var(--serif); font-style:italic; color:var(--ink);
+  font-size:1.05rem; max-width:32ch; margin-top:var(--s-2);
+}
+.foot-bottom{
+  margin-top:var(--s-5); padding-top:var(--s-3);
+  border-top:1px dashed var(--ink-fade);
+  display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--s-3);
+  font-family:var(--serif); font-style:italic; font-size:.85rem;
+  color:var(--ink-fade);
+}
+
+/* Misc */
+.skip-link{
+  position:absolute; left:-9999px; top:auto;
+  width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus{
+  left:var(--s-3); top:var(--s-3); width:auto; height:auto;
+  background:var(--ink); color:var(--paper);
+  padding:8px 12px; border-radius:var(--r-sm); z-index:100;
+}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+
+<!-- ============== NAV ============== -->
+<header class="nav">
+  <div class="nav-inner wrap">
+    <a href="#" class="brand" aria-label="Top Cuts — home">
+      <span class="brand-mark" aria-hidden="true">TC</span>
+      <span class="brand-text">
+        <strong>Top Cuts</strong>
+        <small>Main St · Hazard KY</small>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#stylists">Our Stylists</a>
+      <a href="#hours">Hours</a>
+      <a href="#book">Book Online</a>
+      <a href="#portal" class="portal">Portal</a>
+    </nav>
+    <button class="menu-btn" aria-label="Open menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      Menu
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="walkin-badge">
+        <span class="dot" aria-hidden="true"></span>
+        Walk-ins welcome today
+      </span>
+      <h1>A good cut, <span class="ampersand">&amp;</span> an honest price.</h1>
+      <p class="subline">
+        We've been on <em>Main Street</em> for nine years. Two chairs, two stylists, one little shop —
+        and a fair shake for everyone who walks through the door.
+      </p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#book">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M8 2v4M16 2v4M3 10h18M5 6h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/></svg>
+          Book an Appointment
+        </a>
+        <a class="btn btn-ghost" href="#services">See Services</a>
+      </div>
+    </div>
+
+    <!-- Ticket-stub motif: signature piece -->
+    <aside class="ticket" aria-label="Sample price list">
+      <div class="ticket-head">
+        <span class="num">$18</span>
+        <span class="label">Adult Cut · walk-in</span>
+      </div>
+      <ul>
+        <li><span>Adult Cut</span><b>$18</b></li>
+        <li><span>Kid's Cut (12 &amp; under)</span><b>$14</b></li>
+        <li><span>Buzz / Clipper</span><b>$12</b></li>
+        <li><span>Beard Trim</span><b>$10</b></li>
+        <li><span>Wash &amp; Style</span><b>$15</b></li>
+      </ul>
+      <div class="stub">
+        <span>★ Cash, card, &amp; Venmo</span>
+        <span>No. 0417</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============== TRUST BAR ============== -->
+<section class="trust" aria-label="Why Top Cuts">
+  <div class="wrap trust-inner">
+    <span class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.5 9 8 11 4.5-2 8-6 8-11V5l-8-3z"/></svg>
+      <b>9 years</b> on Main St
+    </span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M16 11a4 4 0 1 0-8 0M3 21v-1a6 6 0 0 1 6-6h6a6 6 0 0 1 6 6v1"/></svg>
+      <b>2 master stylists</b>
+    </span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="trust-item">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 1v22M5 6c0 4 3 7 7 7s7-3 7-7"/></svg>
+      <b>Honest hometown</b> prices
+    </span>
+  </div>
+</section>
+
+<!-- ============== SERVICES ============== -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Our price board</span>
+      <h2>Cuts when you walk in.<br/>Color when you book.</h2>
+      <p>Two simple ways to get in the chair. No surprises, no upcharges.</p>
+    </div>
+
+    <div class="board">
+      <div class="board-tabs" role="tablist">
+        <span class="tab warm">Walk-in Cuts <small>no appointment</small></span>
+        <span class="tab">Color Services <small>by appointment</small></span>
+      </div>
+
+      <div class="price-grid">
+
+        <!-- Walk-in cuts -->
+        <div class="price-list" aria-label="Walk-in cuts and prices">
+          <h3>
+            <svg class="star" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.6 6.8L22 10l-5.8 4.6L18 22l-6-3.7L6 22l1.8-7.4L2 10l7.4-1.2L12 2z"/></svg>
+            Walk-in Cuts
+          </h3>
+
+          <div class="row">
+            <div class="name">Adult Cut<small>Wash, cut, and finish</small></div>
+            <div class="price">$<b>18</b><span class="cents">.00</span></div>
+          </div>
+          <div class="row">
+            <div class="name">Kid's Cut<small>12 &amp; under</small></div>
+            <div class="price">$<b>14</b><span class="cents">.00</span></div>
+          </div>
+          <div class="row">
+            <div class="name">Buzz<small>Clipper all over</small></div>
+            <div class="price">$<b>12</b><span class="cents">.00</span></div>
+          </div>
+          <div class="row">
+            <div class="name">Beard Trim<small>Shape &amp; line-up</small></div>
+            <div class="price">$<b>10</b><span class="cents">.00</span></div>
+          </div>
+          <div class="row">
+            <div class="name">Wash &amp; Style<small>Blow-out finish</small></div>
+            <div class="price">$<b>15</b><span class="cents">.00</span></div>
+          </div>
+
+          <p class="note">★ Pull up a chair — we'll get to you same day, usually within the hour.</p>
+        </div>
+
+        <!-- Color services -->
+        <div class="price-list" aria-label="Color services and prices">
+          <h3>
+            <svg class="star" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.6 6.8L22 10l-5.8 4.6L18 22l-6-3.7L6 22l1.8-7.4L2 10l7.4-1.2L12 2z"/></svg>
+            Color — By Appointment
+          </h3>
+
+          <div class="row">
+            <div class="name">Root Touch-Up<small>~45 min · gray coverage</small></div>
+            <div class="price">$<b>40</b><span class="cents">.00</span></div>
+          </div>
+          <div class="row">
+            <div class="name">Full Color<small>~90 min · single process</small></div>
+            <div class="price">$<b>55</b><span class="cents">.00</span></div>
+          </div>
+          <div class="row">
+            <div class="name">Highlights<small>~120 min · foils</small></div>
+            <div class="price">$<b>70</b><span class="cents">.00</span></div>
+          </div>
+          <div class="row">
+            <div class="name">Perm<small>~150 min · rod set</small></div>
+            <div class="price">$<b>50</b><span class="cents">.00</span></div>
+          </div>
+
+          <p class="note">Color holds a chair for 75 to 150 minutes, so we book those ahead. You can usually get in within the week.</p>
+        </div>
+
+      </div>
+
+      <!-- Why book ahead -->
+      <div class="appointment-note">
+        <div class="icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <div>
+          <h4>Why book ahead for color?</h4>
+          <p>Color keeps a stylist in one chair for an hour and a half to two and a half hours. Booking ahead means you get the time you need — and our walk-in customers keep moving without a long wait.</p>
+        </div>
+        <a class="btn btn-primary" href="#book" style="box-shadow:3px 3px 0 var(--ink)">Book Color</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== STYLISTS ============== -->
+<section class="section" id="stylists" style="background:var(--paper-deep); border-top:1px dashed var(--ink); border-bottom:1px dashed var(--ink)">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Behind the chairs</span>
+      <h2>Two stylists. Nine years.<br/>One Main Street shop.</h2>
+    </div>
+
+    <div class="chairs">
+
+      <article class="chair">
+        <div class="chair-portrait" aria-hidden="true">
+          <span class="badge">Chair 1</span>
+          <svg class="silhouette" viewBox="0 0 200 200" fill="none" stroke="#2a1a10" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="100" cy="70" r="28"/>
+            <path d="M55 165c0-25 20-45 45-45s45 20 45 45"/>
+            <path d="M72 65c4-18 16-30 28-30s24 12 28 30"/>
+            <path d="M30 130c10-10 25-14 40-10M170 130c-10-10-25-14-40-10" stroke-dasharray="3 4"/>
+          </svg>
+        </div>
+        <div class="chair-body">
+          <h3>Chair 1 — Stylist</h3>
+          <div class="role">Master Stylist · Owner</div>
+          <p>Opened Top Cuts in 2016. Loves a clean classic cut, a sharp part, and a regular who walks in the same time every Friday.</p>
+          <div class="stats">
+            <span><b>9</b>years cutting</span>
+            <span><b>4.9</b>★ avg</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="chair">
+        <div class="chair-portrait" aria-hidden="true">
+          <span class="badge">Chair 2</span>
+          <svg class="silhouette" viewBox="0 0 200 200" fill="none" stroke="#2a1a10" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="100" cy="72" r="26"/>
+            <path d="M58 165c0-24 19-44 42-44s42 20 42 44"/>
+            <path d="M76 60c2-12 12-22 24-22s22 10 24 22"/>
+            <path d="M62 50c8 8 22 12 38 12s30-4 38-12" stroke-dasharray="3 4"/>
+            <path d="M28 132c12-12 28-16 44-10M172 132c-12-12-28-16-44-10" stroke-dasharray="3 4"/>
+          </svg>
+        </div>
+        <div class="chair-body">
+          <h3>Chair 2 — Stylist</h3>
+          <div class="role">Master Stylist · Color Lead</div>
+          <p>Joined the shop four years ago. Runs our color book and has a soft spot for highlights that look like the sun did it on its own.</p>
+          <div class="stats">
+            <span><b>11</b>years styling</span>
+            <span><b>4.8</b>★ avg</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== HOURS + LOCATION ============== -->
+<section class="hl" id="hours">
+  <div class="wrap hl-grid">
+    <div>
+      <span class="eyebrow" style="color:var(--copper)">When to find us</span>
+      <h2>Hours <span class="ampersand">&amp;</span> Place</h2>
+
+      <div class="hl-card" aria-label="Shop hours">
+        <h3>Shop Hours</h3>
+        <ul class="hours-list">
+          <li><span class="day">Monday</span><span>9:00 AM – 6:00 PM</span></li>
+          <li><span class="day">Tuesday</span><span>9:00 AM – 6:00 PM</span></li>
+          <li><span class="day">Wednesday</span><span>9:00 AM – 6:00 PM</span></li>
+          <li class="today"><span class="day">Thursday</span><span>9:00 AM – 7:00 PM</span></li>
+          <li><span class="day">Friday</span><span>9:00 AM – 6:00 PM</span></li>
+          <li><span class="day">Saturday</span><span>9:00 AM – 3:00 PM</span></li>
+          <li><span class="day">Sunday</span><span>Closed</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="loc-card">
+        <div class="map" aria-hidden="true">
+          <svg class="pin" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg>
+        </div>
+        <address>
+          <strong>Top Cuts</strong><br/>
+          415 Main Street<br/>
+          Hazard, KY 41701
+        </address>
+        <div class="row">
+          <span><a href="tel:+16064360000">(606) 436-0000</a></span>
+          <span class="city">Across from the courthouse</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer" id="book">
+  <div class="wrap footer-inner">
+    <div>
+      <h4 style="margin-bottom:8px">Top Cuts</h4>
+      <p class="footer-tag">A little shop on Main Street. We've been here nine years — we'd love to see you.</p>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <ul>
+        <li>415 Main St, Hazard KY</li>
+        <li>(606) 436-0000</li>
+        <li>Tue–Sat · walk-ins welcome</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#services">Services &amp; Prices</a></li>
+        <li><a href="#stylists">Our Stylists</a></li>
+        <li><a href="#book">Book Online</a></li>
+        <li><a href="#portal">Client Portal</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Top Cuts · Hazard, Kentucky</span>
+    <span>Made on Main Street.</span>
+  </div>
+</footer>
+
+</body>
+</html>

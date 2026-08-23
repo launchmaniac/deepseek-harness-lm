@@ -1,0 +1,10 @@
+{
+  "name": "top-cuts",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Top Cuts salon website + customer portal + booking (zero dependencies)",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

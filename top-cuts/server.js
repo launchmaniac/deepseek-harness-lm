@@ -167,7 +167,7 @@ function overlaps([s1, e1], [s2, e2]) {
  * All bookable start times for one date + service across chairs.
  * Returns { closed, reason?, slots: [{ time, chairs: [chairId...] }] }
  */
-function availabilityFor(cfg, dateStr, service, onlyChair) {
+function availabilityFor(cfg, dateStr, service, onlyChair, { ignoreLead = false } = {}) {
   const chairs = onlyChair ? cfg.stylists.filter((c) => c.id === onlyChair) : cfg.stylists;
   if (!chairs.length) throw new ApiError(400, 'Unknown stylist.');
 
@@ -179,7 +179,7 @@ function availabilityFor(cfg, dateStr, service, onlyChair) {
   const ranges = dayRanges(cfg, dateStr);
   if (!ranges.length) return { closed: true, reason: 'The shop is closed this day.', slots: [] };
 
-  const lead = cfg.business.minLeadMinutes;
+  const lead = ignoreLead ? -1 : cfg.business.minLeadMinutes;
   const earliest = dateStr === today ? nowMinutes() + lead : -1;
   const perChair = new Map();
   for (const chair of chairs) {
@@ -247,9 +247,12 @@ function createAppointment(cfg, { serviceId, date, time, chairId, name, phone, e
   const wantChair = chairId && chairId !== 'any' ? chairId : null;
   if (wantChair && !cfg.stylists.some((c) => c.id === wantChair)) throw new ApiError(400, 'Unknown stylist.');
 
-  const openSlots = availabilityFor(cfg, date, service, wantChair);
+  const openSlots = availabilityFor(cfg, date, service, wantChair, { ignoreLead: source === 'walkin' });
   const slot = openSlots.slots.find((s) => s.time === time);
-  if (!slot) throw new ApiError(409, 'Sorry — that time was just taken or is unavailable. Please pick another time.');
+  if (!slot) {
+    if (openSlots.closed) throw new ApiError(409, openSlots.reason || 'The shop is closed this day.');
+    throw new ApiError(409, 'Sorry — that time was just taken or is unavailable. Please pick another time.');
+  }
   const assignedChair = wantChair || slot.chairs[0];
 
   const appt = {
@@ -470,9 +473,11 @@ async function handleApi(req, res, url) {
 
   if (route === 'POST /api/staff/walkin') {
     const body = await readJsonBody(req);
+    // Default start: next slot-grid minute after right now.
     const now = new Date();
-    const rounded = Math.min(now.getMinutes() + (now.getMinutes() % cfg.business.slotIntervalMinutes ? cfg.business.slotIntervalMinutes - (now.getMinutes() % cfg.business.slotIntervalMinutes) : 0), 59);
-    const fallbackTime = minToHHMM(now.getHours() * 60 + (rounded === 0 && now.getMinutes() > 45 ? 60 : rounded));
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const nextGrid = Math.ceil((nowMin + 1) / cfg.business.slotIntervalMinutes) * cfg.business.slotIntervalMinutes;
+    const fallbackTime = nextGrid < 24 * 60 ? minToHHMM(nextGrid) : undefined;
     const appt = createAppointment(cfg, {
       serviceId: body.serviceId,
       date: body.date || todayStr(),

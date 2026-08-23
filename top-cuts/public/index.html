@@ -1,1 +1,180 @@
-<!doctype html><title>Top Cuts</title>placeholder
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Top Cuts — Hair salon on Main Street, Hazard KY · Walk-ins welcome</title>
+<meta name="description" content="Top Cuts is Hazard's hometown salon: nine years on Main Street, two stylists who take pride in their work, and prices that respect you. Walk in for cuts, book ahead for color." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/styles.css" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav__inner container">
+    <a class="brand" href="/" aria-label="Top Cuts home">
+      <svg class="brand__mark" aria-hidden="true"><use href="/img/icons.svg#scissors"></use></svg>
+      <span class="brand__name">Top&nbsp;Cuts</span>
+    </a>
+    <nav class="nav__links" aria-label="Main">
+      <a href="#services">Services &amp; Prices</a>
+      <a href="#stylists">Our Stylists</a>
+      <a href="#visit">Hours &amp; Find Us</a>
+      <a href="/portal.html">My Visits</a>
+      <a class="btn btn--primary btn--small" href="/booking.html">Book Online</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <span class="label">Main Street · Hazard, Kentucky</span>
+      <h1 class="hero__title">Good hair, <em>honest</em> prices.</h1>
+      <p class="hero__lede">
+        For nine years, Top Cuts has been where Hazard gets its hair done right —
+        two stylists who take pride in every chair they work, at prices that don't
+        ask you to think twice.
+      </p>
+      <span class="walkin-badge">
+        <svg width="16" height="16" aria-hidden="true"><use href="/img/icons.svg#clock"></use></svg>
+        Walk-ins welcome for everyday cuts
+      </span>
+      <div class="hero__ctas">
+        <a class="btn btn--primary btn--large" href="/booking.html">Book an appointment</a>
+        <a class="btn btn--ghost btn--large" href="#services">See services &amp; prices</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <section class="trust" aria-label="Why neighbors trust us">
+    <div class="trust__inner container">
+      <div class="trust__item"><span class="trust__num">9 yrs</span><span class="trust__text">on Main Street, same town we raise our families in</span></div>
+      <div class="trust__item"><span class="trust__num">2</span><span class="trust__text">stylists who learn your name — and your haircut</span></div>
+      <div class="trust__item"><span class="trust__num">Walk-in</span><span class="trust__text">everyday cuts, no appointment needed</span></div>
+      <div class="trust__item"><span class="trust__num">$18</span><span class="trust__text">adult cuts — quality without the salon markup</span></div>
+    </div>
+  </section>
+
+  <!-- Services & prices -->
+  <section class="section" id="services">
+    <div class="container">
+      <p class="label">The price board</p>
+      <h2 class="page-title">Services &amp; prices</h2>
+      <p class="section-lede" style="margin-top:12px">
+        Posted plain, the way a price list should be. You pay at the shop — no deposits,
+        no booking fees, no surprises.
+      </p>
+
+      <h3 class="group-title">Everyday cuts <small>walk ins welcome — booking online just skips the wait</small></h3>
+      <div class="svc-grid" id="cuts-grid"></div>
+
+      <h3 class="group-title">Color &amp; chemical <small>these tie up a whole chair — booking ahead keeps your day on schedule</small></h3>
+      <div class="svc-grid" id="color-grid"></div>
+    </div>
+  </section>
+
+  <!-- Why book ahead for color -->
+  <section class="explain" id="why-book">
+    <div class="container">
+      <div class="explain-grid">
+        <div class="explain-card">
+          <span class="explain-card__num">01</span>
+          <h3>Color takes time</h3>
+          <p>A color service keeps one stylist in one chair for an hour to two and a half hours. That's the honest math.</p>
+        </div>
+        <div class="explain-card">
+          <span class="explain-card__num">02</span>
+          <h3>Two chairs only</h3>
+          <p>With just two of us working, one long appointment reshapes the whole day. We'd rather plan for it than leave you waiting.</p>
+        </div>
+        <div class="explain-card">
+          <span class="explain-card__num">03</span>
+          <h3>Booking keeps it fair</h3>
+          <p>Reserve your chair for color and everybody moves faster — including the walk-ins. It's why we ask.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stylists -->
+  <section class="section" id="stylists">
+    <div class="container">
+      <p class="label">Who's behind the chairs</p>
+      <h2 class="page-title">Our stylists</h2>
+      <p class="section-lede" style="margin-block:12px var(--s-6)">
+        Two chairs, zero attitude. Between them they've seen every head in Perry County —
+        and they still treat each one like it matters.
+      </p>
+      <div class="stylist-grid" id="stylist-grid"></div>
+    </div>
+  </section>
+
+  <!-- Visit -->
+  <section class="section" id="visit" style="padding-top:0">
+    <div class="container">
+      <p class="label">Come see us</p>
+      <h2 class="page-title">Hours &amp; find us</h2>
+      <div class="visit-grid" style="margin-top:var(--s-6)">
+        <div class="visit-card">
+          <h3>Shop hours</h3>
+          <table class="hours-table" id="hours-table"></table>
+        </div>
+        <div class="visit-card">
+          <h3>Find the shop</h3>
+          <p>
+            <svg style="display:inline-block;width:15px;height:15px;vertical-align:-2px;color:var(--copper)" aria-hidden="true"><use href="/img/icons.svg#pin"></use></svg>
+            <strong data-address></strong><br /><br />
+            <svg style="display:inline-block;width:15px;height:15px;vertical-align:-2px;color:var(--copper)" aria-hidden="true"><use href="/img/icons.svg#phone"></use></svg>
+            <span data-phone></span><br /><br />
+            Right on Main Street — look for the shop that's been there nine years.<br />
+            <a data-map-link target="_blank" rel="noopener">Open in Google Maps ↗</a>
+          </p>
+        </div>
+      </div>
+      <div class="btn-row" style="margin-top:var(--s-6)">
+        <a class="btn btn--primary btn--large" href="/booking.html">Book your next visit</a>
+        <a class="btn btn--ghost btn--large" href="/portal.html">Manage existing booking</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <div class="footer__brand">Top&nbsp;Cuts</div>
+      <p class="footer__tag">Hazard's hometown salon. Pride in the work, fair in the price — since day one on Main Street.</p>
+    </div>
+    <div>
+      <h3>The shop</h3>
+      <ul>
+        <li><a href="#services">Services &amp; prices</a></li>
+        <li><a href="/booking.html">Book online</a></li>
+        <li><a href="/portal.html">My visits</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Visit</h3>
+      <ul>
+        <li data-address></li>
+        <li><span data-phone></span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <span>© <span id="year"></span> Top Cuts · Hazard, Kentucky</span>
+    <a href="/staff.html">Staff sign-in</a>
+  </div>
+</footer>
+
+<script type="module" src="/js/index.js"></script>
+<noscript><div class="container section"><p>To see live prices and book online, please enable JavaScript — or just walk in, or call the shop.</p></div></noscript>
+</body>
+</html>

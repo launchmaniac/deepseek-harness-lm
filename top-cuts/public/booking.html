@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book an appointment — Top Cuts</title>
+<meta name="description" content="Book a cut or reserve a color chair at Top Cuts in Hazard, KY. Pick your service, day, and time in under a minute." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/styles.css" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav__inner container">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="/img/icons.svg#scissors"></use></svg>
+      <span class="brand__name">Top&nbsp;Cuts</span>
+    </a>
+    <nav class="nav__links" aria-label="Main">
+      <a href="/#services">Services</a>
+      <a href="/portal.html">My Visits</a>
+      <a href="/">Home</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container container--narrow">
+    <p class="label">Online booking</p>
+    <h1 class="page-title" id="step-title">Pick your service</h1>
+
+    <ol class="stepper" aria-label="Booking steps">
+      <li class="stepper__dot is-current" data-label="Service">1</li>
+      <li class="stepper__dot" data-label="Time">2</li>
+      <li class="stepper__dot" data-label="Details">3</li>
+      <li class="stepper__dot" data-label="Done">4</li>
+    </ol>
+
+    <!-- Step 1 -->
+    <section data-step="1">
+      <h2 class="group-title">Walk-in cuts <small>walk ins still welcome — booking skips the wait</small></h2>
+      <div class="svc-grid" id="cuts-grid"></div>
+      <h2 class="group-title">Color &amp; chemical <small>these tie up a chair — reserving yours keeps the day running</small></h2>
+      <div class="svc-grid" id="color-grid"></div>
+      <div class="btn-row">
+        <button class="btn btn--primary btn--large" id="to-step-2" disabled>Choose a time →</button>
+      </div>
+    </section>
+
+    <!-- Step 2 -->
+    <section data-step="2" hidden>
+      <h2 class="group-title">Pick a day</h2>
+      <div class="date-chips" id="date-chips" role="group" aria-label="Available days"></div>
+
+      <h2 class="group-title">Pick a stylist</h2>
+      <div class="radio-row" id="chair-picker"></div>
+
+      <h2 class="group-title">Pick a time</h2>
+      <div id="slot-area" aria-live="polite"><p class="muted">Choose a day above to see open times.</p></div>
+
+      <div class="btn-row">
+        <button class="btn btn--ghost" id="to-step-1">← Back</button>
+        <button class="btn btn--primary btn--large" id="to-step-3" hidden>Continue →</button>
+      </div>
+    </section>
+
+    <!-- Step 3 -->
+    <section data-step="3" hidden>
+      <p class="review-line" id="review-line"></p>
+      <form id="details-form" novalidate>
+        <div class="field">
+          <label class="label" for="f-name">Your name *</label>
+          <input class="input" id="f-name" name="name" autocomplete="name" required maxlength="80" />
+        </div>
+        <div class="field">
+          <label class="label" for="f-phone">Phone number *</label>
+          <input class="input" id="f-phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(606) 555-0123" required />
+          <p class="hint">We only use this to manage your appointment — no marketing, ever.</p>
+        </div>
+        <div class="field">
+          <label class="label" for="f-email">Email <small>(optional)</small></label>
+          <input class="input" id="f-email" name="email" type="email" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label class="label" for="f-notes">Anything we should know? <small>(optional)</small></label>
+          <textarea class="input" id="f-notes" name="notes" rows="3" maxlength="500" placeholder="Hair length, colors you have in mind, if it's your first visit…"></textarea>
+        </div>
+      </form>
+      <div class="btn-row">
+        <button class="btn btn--ghost" id="back-to-2">← Back</button>
+        <button class="btn btn--primary btn--large" id="confirm-btn">Confirm booking</button>
+      </div>
+      <p class="muted small-note">Free changes until 2 hours before your visit — after that, please call.</p>
+    </section>
+
+    <!-- Step 4 -->
+    <section data-step="4" hidden aria-live="polite">
+      <div class="confirm-card" id="confirm-box"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="footer footer--minimal">
+  <div class="container footer__inner">
+    <p>Top Cuts · 415 Main St, Hazard, KY 41701</p>
+  </div>
+</footer>
+
+<script type="module" src="/js/booking.js"></script>
+</body>
+</html>

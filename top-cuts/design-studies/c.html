@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Top Cuts — Friendly Neighborhood Salon · Hazard, KY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    /* Brand */
+    --teal-900:#0a4a44;
+    --teal-700:#0f6b63;
+    --teal-600:#18857b;
+    --teal-500:#2aa399;
+    --teal-50:#e7f3f1;
+    --coral:#f2856d;
+    --coral-soft:#fde0d6;
+    --sunrise:#ffb98a;
+    --cream:#fbf7f2;
+    --warm-white:#fffaf5;
+    --ink:#1f2a2a;
+    --ink-soft:#475a59;
+    --line:rgba(15,107,99,.14);
+    --line-soft:rgba(15,107,99,.08);
+
+    /* Radii & shadow personality — soft, layered, slightly elevated */
+    --r-sm:10px;
+    --r-md:14px;
+    --r-lg:18px;
+    --r-xl:22px;
+    --r-pill:999px;
+
+    --sh-1:0 1px 0 rgba(15,107,99,.05), 0 2px 6px rgba(15,107,99,.06);
+    --sh-2:0 6px 14px -8px rgba(10,74,68,.18), 0 2px 6px rgba(15,107,99,.08);
+    --sh-3:0 14px 32px -16px rgba(10,74,68,.28), 0 6px 14px -10px rgba(15,107,99,.12);
+    --sh-focus:0 0 0 4px rgba(15,107,99,.22);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Nunito', ui-rounded, "SF Pro Rounded", "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color:var(--ink);
+    background:var(--warm-white);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  img,svg{display:block;max-width:100%}
+  a{color:var(--teal-700);text-decoration:none}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:none;box-shadow:var(--sh-focus);border-radius:8px}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+  /* ─── NAV ─────────────────────────────────────────────── */
+  .nav{
+    position:sticky;top:0;z-index:30;
+    background:rgba(255,250,245,.86);
+    backdrop-filter:saturate(140%) blur(10px);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    display:flex;align-items:center;gap:18px;
+    padding:14px 0;
+  }
+  .logo-chip{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--teal-700);color:#fff;
+    padding:8px 14px 8px 10px;
+    border-radius:var(--r-pill);
+    box-shadow:var(--sh-2);
+    font-weight:800;letter-spacing:.2px;
+  }
+  .logo-chip:hover{text-decoration:none;transform:translateY(-1px)}
+  .logo-chip .mark{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--coral);
+    display:grid;place-items:center;
+    box-shadow:inset 0 -2px 0 rgba(0,0,0,.08);
+  }
+  .logo-chip .mark svg{width:18px;height:18px}
+  .logo-chip .name{font-size:18px}
+  .logo-chip .name b{font-weight:900}
+
+  .nav-links{display:none;gap:6px;margin-left:6px}
+  .nav-links a{
+    color:var(--ink);font-weight:700;font-size:15px;
+    padding:10px 12px;border-radius:var(--r-pill);
+  }
+  .nav-links a:hover{background:var(--teal-50);text-decoration:none}
+  @media (min-width:860px){.nav-links{display:inline-flex}}
+
+  .nav-spacer{flex:1}
+  .nav-cta{display:inline-flex;align-items:center;gap:8px;
+    background:var(--teal-700);color:#fff;
+    padding:12px 18px;border-radius:var(--r-pill);
+    font-weight:800;font-size:15px;
+    box-shadow:var(--sh-2);
+    min-height:44px;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{background:var(--teal-900);text-decoration:none;transform:translateY(-1px);box-shadow:var(--sh-3)}
+  .nav-cta svg{width:16px;height:16px}
+
+  /* ─── HERO ────────────────────────────────────────────── */
+  .hero{
+    position:relative;
+    background:
+      radial-gradient(1100px 360px at 12% -10%, var(--teal-50) 0%, transparent 60%),
+      radial-gradient(900px 320px at 95% 10%, var(--coral-soft) 0%, transparent 65%),
+      var(--warm-white);
+    padding:54px 0 92px;
+    overflow:hidden;
+  }
+  .hero-grid{display:grid;gap:30px;align-items:center}
+  @media (min-width:920px){.hero-grid{grid-template-columns:1.15fr .85fr;gap:48px}}
+
+  .badge-walkin{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--coral);color:#3b1a10;
+    padding:8px 14px;border-radius:var(--r-pill);
+    font-weight:800;font-size:14px;
+    box-shadow:var(--sh-2);
+    margin-bottom:18px;
+  }
+  .badge-walkin .dot{
+    width:8px;height:8px;border-radius:50%;background:#fff;
+    box-shadow:0 0 0 4px rgba(255,255,255,.55);
+    animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.65}}
+
+  h1.headline{
+    font-size:clamp(34px, 6.2vw, 58px);
+    line-height:1.05;letter-spacing:-.02em;
+    margin:0 0 14px;font-weight:900;color:var(--teal-900);
+  }
+  h1.headline .accent{color:var(--coral);position:relative;white-space:nowrap}
+  h1.headline .accent::after{
+    content:"";position:absolute;left:0;right:0;bottom:-2px;height:10px;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'><path d='M0 7 Q 25 0 50 6 T 100 6 T 150 6 T 200 6' fill='none' stroke='%23f2856d' stroke-width='3' stroke-linecap='round'/></svg>") repeat-x;
+    background-size:200px 10px;
+  }
+  .lede{
+    font-size:clamp(16px, 1.6vw, 18px);
+    color:var(--ink-soft);max-width:54ch;margin:0 0 26px;
+  }
+
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    min-height:48px;padding:14px 22px;border-radius:var(--r-pill);
+    font-weight:800;font-size:16px;border:2px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{background:var(--teal-700);color:#fff;box-shadow:var(--sh-2)}
+  .btn-primary:hover{background:var(--teal-900);text-decoration:none;transform:translateY(-1px);box-shadow:var(--sh-3)}
+  .btn-ghost{background:#fff;color:var(--teal-700);border-color:var(--teal-700);box-shadow:var(--sh-1)}
+  .btn-ghost:hover{background:var(--teal-50);text-decoration:none;transform:translateY(-1px)}
+  .btn svg{width:18px;height:18px}
+
+  .trust{
+    margin-top:22px;display:flex;flex-wrap:wrap;gap:14px 22px;
+    color:var(--ink-soft);font-size:14px;font-weight:700;
+  }
+  .trust span{display:inline-flex;align-items:center;gap:8px}
+  .trust .chip{
+    width:28px;height:28px;border-radius:50%;background:var(--teal-50);
+    display:grid;place-items:center;color:var(--teal-700);
+  }
+  .trust .chip svg{width:14px;height:14px}
+
+  /* Hero illustration card */
+  .hero-card{
+    position:relative;
+    background:#fff;border-radius:var(--r-xl);
+    box-shadow:var(--sh-3);
+    padding:22px;border:1px solid var(--line-soft);
+  }
+  .hero-card .scene{
+    height:260px;border-radius:var(--r-lg);
+    background:
+      radial-gradient(circle at 30% 30%, #ffd9b8 0 18%, transparent 19%),
+      radial-gradient(circle at 70% 30%, #ffd9b8 0 18%, transparent 19%),
+      radial-gradient(circle at 50% 55%, #f4a78f 0 22%, transparent 23%),
+      linear-gradient(180deg,#fff5e9 0%, #ffe4d2 100%);
+    position:relative;overflow:hidden;
+  }
+  .hero-card .scene svg{position:absolute;inset:0;width:100%;height:100%}
+  .hero-card .meta{
+    margin-top:14px;display:flex;align-items:center;justify-content:space-between;
+    gap:14px;
+  }
+  .hero-card .meta .who{font-weight:800;color:var(--teal-900)}
+  .hero-card .meta .small{font-size:13px;color:var(--ink-soft)}
+  .price-pill{
+    display:inline-flex;align-items:baseline;gap:6px;
+    background:var(--coral-soft);color:#7a2e1c;
+    padding:6px 12px;border-radius:var(--r-pill);font-weight:800;font-size:14px;
+  }
+  .price-pill b{font-size:18px;font-weight:900}
+
+  /* Wave divider */
+  .wave{position:absolute;left:0;right:0;bottom:-1px;height:60px}
+  .wave svg{display:block;width:100%;height:100%}
+
+  /* ─── SECTION COMMONS ─────────────────────────────────── */
+  section{padding:64px 0}
+  section h2{
+    font-size:clamp(26px, 3.4vw, 36px);
+    margin:0 0 8px;line-height:1.15;letter-spacing:-.01em;color:var(--teal-900);
+    font-weight:900;
+  }
+  section .sub{color:var(--ink-soft);max-width:60ch;margin:0 0 28px;font-size:16px}
+  .eyebrow{
+    display:inline-block;
+    color:var(--coral);font-weight:900;font-size:13px;letter-spacing:.12em;
+    text-transform:uppercase;margin-bottom:10px;
+  }
+
+  /* ─── BENEFITS ────────────────────────────────────────── */
+  .benefits{
+    background:linear-gradient(180deg, var(--warm-white) 0%, var(--cream) 100%);
+    position:relative;
+  }
+  .benefit-grid{display:grid;gap:18px}
+  @media (min-width:760px){.benefit-grid{grid-template-columns:repeat(3,1fr)}}
+  .benefit{
+    background:#fff;border-radius:var(--r-lg);
+    padding:22px;border:1px solid var(--line-soft);
+    box-shadow:var(--sh-2);
+    position:relative;overflow:hidden;
+  }
+  .benefit::after{
+    content:"";position:absolute;left:0;right:0;bottom:0;height:6px;
+    background:radial-gradient(circle at 12px 3px, var(--teal-500) 0 2px, transparent 3px) repeat-x;
+    background-size:24px 6px;opacity:.7;
+  }
+  .benefit .ico{
+    width:48px;height:48px;border-radius:14px;
+    background:var(--teal-50);color:var(--teal-700);
+    display:grid;place-items:center;margin-bottom:14px;
+  }
+  .benefit .ico svg{width:24px;height:24px}
+  .benefit h3{margin:0 0 6px;font-size:19px;color:var(--teal-900);font-weight:900}
+  .benefit p{margin:0;color:var(--ink-soft);font-size:15px}
+
+  /* ─── SERVICES ────────────────────────────────────────── */
+  .services{background:var(--warm-white)}
+  .tabs{
+    display:inline-flex;background:#fff;
+    padding:6px;border-radius:var(--r-pill);
+    border:1px solid var(--line-soft);box-shadow:var(--sh-1);
+    margin-bottom:20px;
+  }
+  .tab{
+    appearance:none;border:0;cursor:pointer;
+    padding:10px 16px;border-radius:var(--r-pill);
+    background:transparent;color:var(--ink-soft);
+    font:inherit;font-weight:800;font-size:14px;
+    min-height:44px;
+  }
+  .tab[aria-selected="true"]{
+    background:var(--teal-700);color:#fff;
+    box-shadow:var(--sh-2);
+  }
+  .tab:focus-visible{box-shadow:var(--sh-focus)}
+  .panels{position:relative}
+  .panel{display:none}
+  .panel.is-active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  /* CSS-only tabs: use :target fallback */
+  .panels:has(#tab-color:target) #tab-color-panel{display:block}
+  .panels:has(#tab-color:target) #tab-walkin-panel{display:none}
+
+  .price-grid{display:grid;gap:14px}
+  @media (min-width:680px){.price-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (min-width:980px){.price-grid{grid-template-columns:repeat(3,1fr)}}
+  .svc{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:#fff;border:1px solid var(--line-soft);
+    padding:16px 18px;border-radius:var(--r-md);
+    box-shadow:var(--sh-1);
+  }
+  .svc .name{font-weight:800;color:var(--teal-900);font-size:16px}
+  .svc .sub{font-size:13px;color:var(--ink-soft);margin-top:2px}
+  .svc .price{
+    font-weight:900;color:var(--coral);font-size:20px;
+    background:var(--coral-soft);
+    padding:6px 12px;border-radius:var(--r-pill);
+    white-space:nowrap;
+  }
+  .svc .ico{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--teal-50);color:var(--teal-700);
+    display:grid;place-items:center;flex:none;
+  }
+  .svc .ico svg{width:18px;height:18px}
+  .svc .left{display:flex;align-items:center;gap:12px;min-width:0}
+  .svc .left .t{min-width:0}
+  .note{
+    margin-top:18px;display:flex;gap:12px;align-items:flex-start;
+    background:var(--teal-50);border:1px dashed rgba(15,107,99,.35);
+    color:var(--teal-900);padding:14px 16px;border-radius:var(--r-md);
+    font-size:14.5px;
+  }
+  .note .ico{flex:none;color:var(--teal-700)}
+  .note .ico svg{width:20px;height:20px}
+  .note b{font-weight:900}
+
+  /* ─── STYLISTS ────────────────────────────────────────── */
+  .stylists{background:linear-gradient(180deg, var(--cream) 0%, var(--warm-white) 100%)}
+  .stylist-grid{display:grid;gap:18px}
+  @media (min-width:760px){.stylist-grid{grid-template-columns:repeat(2,1fr)}}
+  .stylist{
+    background:#fff;border-radius:var(--r-xl);
+    padding:22px;border:1px solid var(--line-soft);
+    box-shadow:var(--sh-3);
+    display:flex;gap:18px;align-items:center;
+  }
+  .avatar{
+    width:84px;height:84px;border-radius:50%;flex:none;
+    display:grid;place-items:center;
+    color:#fff;font-weight:900;font-size:30px;letter-spacing:.02em;
+    box-shadow:var(--sh-2);
+    position:relative;
+  }
+  .avatar::after{
+    content:"";position:absolute;inset:-4px;border-radius:50%;
+    border:2px dashed rgba(15,107,99,.25);
+  }
+  .avatar.a{background:linear-gradient(135deg, var(--teal-700), var(--teal-500))}
+  .avatar.b{background:linear-gradient(135deg, var(--coral), var(--sunrise))}
+  .stylist .meta h3{margin:0;font-size:22px;color:var(--teal-900);font-weight:900}
+  .stylist .meta .role{
+    display:inline-block;margin-top:2px;
+    background:var(--teal-50);color:var(--teal-700);
+    padding:4px 10px;border-radius:var(--r-pill);
+    font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+  }
+  .stylist .meta p{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+  .stylist .pill{
+    margin-top:12px;display:inline-flex;align-items:center;gap:8px;
+    background:#fff;border:1px solid var(--line);
+    color:var(--ink);font-size:13px;font-weight:700;
+    padding:8px 12px;border-radius:var(--r-pill);
+  }
+  .stylist .pill svg{width:14px;height:14px;color:var(--teal-700)}
+
+  /* ─── HOURS + FIND US ─────────────────────────────────── */
+  .visit{background:var(--warm-white)}
+  .visit-grid{display:grid;gap:18px}
+  @media (min-width:880px){.visit-grid{grid-template-columns:1.05fr .95fr}}
+  .card{
+    background:#fff;border-radius:var(--r-xl);
+    border:1px solid var(--line-soft);box-shadow:var(--sh-3);
+    padding:24px;
+  }
+  .card h3{margin:0 0 14px;font-size:20px;color:var(--teal-900);font-weight:900}
+  .hours-list{margin:0;padding:0;list-style:none}
+  .hours-list li{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:10px 0;border-bottom:1px dashed var(--line-soft);
+    font-size:15px;
+  }
+  .hours-list li:last-child{border-bottom:0}
+  .hours-list .day{font-weight:800;color:var(--ink)}
+  .hours-list .time{color:var(--ink-soft);font-weight:700}
+  .hours-list .closed{color:#a23d2b;font-weight:800}
+  .open-now{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--teal-50);color:var(--teal-700);
+    padding:6px 12px;border-radius:var(--r-pill);
+    font-weight:800;font-size:13px;margin-bottom:10px;
+  }
+  .open-now .dot{width:8px;height:8px;border-radius:50%;background:var(--teal-500)}
+
+  .map-card{position:relative;overflow:hidden}
+  .map{
+    height:220px;border-radius:var(--r-lg);
+    background:
+      linear-gradient(135deg, #e9f3f1 0%, #f7efe6 100%);
+    position:relative;overflow:hidden;border:1px solid var(--line-soft);
+  }
+  .map svg{position:absolute;inset:0;width:100%;height:100%}
+  .map .pin{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);
+    width:44px;height:44px;border-radius:50% 50% 50% 0;
+    background:var(--coral);transform:translate(-50%,-100%) rotate(-45deg);
+    box-shadow:0 8px 16px rgba(242,133,109,.45);
+    display:grid;place-items:center;
+  }
+  .map .pin svg{transform:rotate(45deg);color:#fff;width:20px;height:20px}
+  .addr{
+    margin-top:14px;display:flex;align-items:center;gap:12px;
+    color:var(--ink);font-weight:800;font-size:15px;
+  }
+  .addr .ico{
+    width:36px;height:36px;border-radius:50%;background:var(--coral-soft);color:#a23d2b;
+    display:grid;place-items:center;flex:none;
+  }
+  .addr .ico svg{width:18px;height:18px}
+  .addr small{display:block;color:var(--ink-soft);font-weight:600;margin-top:2px}
+
+  .visit-cta{
+    margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;
+  }
+
+  /* ─── FOOTER ──────────────────────────────────────────── */
+  footer{
+    background:var(--teal-900);color:#cfe5e1;
+    padding:36px 0 26px;
+    position:relative;overflow:hidden;
+  }
+  footer::before{
+    content:"";position:absolute;left:0;right:0;top:-1px;height:24px;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24' preserveAspectRatio='none'><path d='M0 24 Q 100 0 200 24 T 400 24 T 600 24 T 800 24 T 1000 24 T 1200 24' fill='%23fffaf5'/></svg>") repeat-x;
+    background-size:400px 24px;
+  }
+  .foot-grid{
+    display:grid;gap:20px;align-items:start;
+  }
+  @media (min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+  footer h4{
+    margin:0 0 10px;font-size:13px;letter-spacing:.12em;
+    color:#fff;text-transform:uppercase;font-weight:900;
+  }
+  footer a{color:#cfe5e1}
+  footer a:hover{color:#fff}
+  footer ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:14.5px}
+  footer .brand{display:flex;align-items:center;gap:10px;font-weight:900;color:#fff;font-size:18px}
+  footer .brand .mark{width:34px;height:34px;border-radius:50%;background:var(--coral);display:grid;place-items:center}
+  footer .brand .mark svg{width:18px;height:18px}
+  footer .tag{font-size:14px;margin:10px 0 0;max-width:32ch;color:#9fc4be}
+  .foot-bottom{
+    margin-top:22px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);
+    display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+    font-size:13px;color:#9fc4be;
+  }
+  .pill-walkin{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--coral);color:#3b1a10;
+    padding:4px 10px;border-radius:var(--r-pill);font-weight:800;font-size:12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<header class="nav" role="banner">
+  <div class="wrap nav-inner">
+    <a href="#" class="logo-chip" aria-label="Top Cuts — home">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" color="#fff">
+          <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+          <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+          <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+          <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+        </svg>
+      </span>
+      <span class="name"><b>Top</b> Cuts</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#stylists">Stylists</a>
+      <a href="#hours">Hours</a>
+      <a href="#visit">Find Us</a>
+    </nav>
+    <span class="nav-spacer"></span>
+    <a href="#book" class="nav-cta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="16" rx="3"/>
+        <path d="M16 3v4M8 3v4M3 10h18"/>
+      </svg>
+      Book Online
+    </a>
+  </div>
+</header>
+
+<!-- ─── HERO ────────────────────────────────────────────── -->
+<section class="hero" aria-labelledby="hero-h">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="badge-walkin"><span class="dot" aria-hidden="true"></span> Walk-ins welcome today!</span>
+      <h1 id="hero-h" class="headline">
+        A friendly haircut, <span class="accent">right around the corner</span>.
+      </h1>
+      <p class="lede">
+        We're Top Cuts — your neighborhood salon on Main Street in Hazard.
+        Two stylists, fair prices, and a chair ready for you. Pull up anytime
+        for a quick cut, or book ahead for color.
+      </p>
+      <div class="cta-row">
+        <a href="#book" class="btn btn-primary">
+          Book an Appointment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14M13 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#services" class="btn btn-ghost">See Services</a>
+      </div>
+      <div class="trust">
+        <span><span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.35-7-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 5.65-7 10-7 10z"/></svg></span> 9 years on Main St</span>
+        <span><span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span> Family-friendly</span>
+        <span><span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 9l7-7 7 7"/></svg></span> Fair prices, always</span>
+      </div>
+    </div>
+
+    <aside class="hero-card" aria-label="Featured offer">
+      <div class="scene" aria-hidden="true">
+        <svg viewBox="0 0 400 260" preserveAspectRatio="xMidYMid slice">
+          <!-- soft chair -->
+          <rect x="60" y="150" width="280" height="80" rx="40" fill="#ffcdac"/>
+          <rect x="60" y="120" width="280" height="60" rx="30" fill="#ffd9b8"/>
+          <!-- hair tufts floating -->
+          <g fill="#3b1a10" opacity=".25">
+            <path d="M120 60 q10 -18 22 0 q-10 6 -22 0z"/>
+            <path d="M180 80 q10 -16 22 0 q-10 6 -22 0z"/>
+            <path d="M250 50 q10 -16 22 0 q-10 6 -22 0z"/>
+          </g>
+          <!-- little scissors mark -->
+          <g transform="translate(300 40) rotate(20)">
+            <circle cx="6" cy="6" r="5" fill="none" stroke="#0f6b63" stroke-width="2.4"/>
+            <circle cx="6" cy="22" r="5" fill="none" stroke="#0f6b63" stroke-width="2.4"/>
+            <path d="M10 8 L24 22 M10 22 L24 8" stroke="#0f6b63" stroke-width="2.4" stroke-linecap="round"/>
+          </g>
+        </svg>
+      </div>
+      <div class="meta">
+        <div>
+          <div class="who">Today's Walk-in Special</div>
+          <div class="small">Adult Cut · Kid's Cut · Buzz · Beard Trim</div>
+        </div>
+        <span class="price-pill">from <b>$10</b></span>
+      </div>
+    </aside>
+  </div>
+
+  <!-- wave divider -->
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+      <path d="M0 30 Q 150 0 300 30 T 600 30 T 900 30 T 1200 30 V60 H0 Z" fill="#fbf7f2"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ─── BENEFITS ────────────────────────────────────────── -->
+<section class="benefits" aria-labelledby="why-h">
+  <div class="wrap">
+    <span class="eyebrow">Why folks choose us</span>
+    <h2 id="why-h">Honest work, hometown prices.</h2>
+    <p class="sub">No fuss, no surprise upcharges — just good haircuts from people who care about your day.</p>
+    <div class="benefit-grid">
+      <article class="benefit">
+        <div class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <h3>In &amp; out for everyday cuts</h3>
+        <p>Most cuts are done in 20 minutes or less. Stop in, sit down, and head back to your day.</p>
+      </article>
+      <article class="benefit">
+        <div class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+        </div>
+        <h3>Color done right, by appointment</h3>
+        <p>Roots, full color, highlights, and perms get the time they deserve — your stylist's full attention.</p>
+      </article>
+      <article class="benefit">
+        <div class="ico" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M5 5l14 14M19 5L5 19"/></svg>
+        </div>
+        <h3>Fair prices, always</h3>
+        <p>We charge less than the bigger salons in town — and we stand behind every cut we do.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ────────────────────────────────────────── -->
+<section id="services" class="services" aria-labelledby="svc-h">
+  <div class="wrap">
+    <span class="eyebrow">Our menu</span>
+    <h2 id="svc-h">Services &amp; prices.</h2>
+    <p class="sub">Walk in for everyday cuts — no appointment needed. For color and perms, give us a ring or book online so we can hold a chair just for you.</p>
+
+    <div class="tabs" role="tablist" aria-label="Service categories">
+      <a href="#tab-walkin" class="tab" role="tab" aria-selected="true" aria-controls="tab-walkin-panel" id="tab-walkin">Walk-in cuts</a>
+      <a href="#tab-color" class="tab" role="tab" aria-selected="false" aria-controls="tab-color-panel" id="tab-color">Color &amp; more — book ahead</a>
+    </div>
+
+    <div class="panels">
+      <div class="panel is-active" id="tab-walkin-panel" role="tabpanel" aria-labelledby="tab-walkin">
+        <div class="price-grid">
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+              </div>
+              <div class="t"><div class="name">Adult Cut</div><div class="sub">Wash, cut, and a friendly check-in</div></div>
+            </div>
+            <span class="price">$18</span>
+          </div>
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 0 1 5 5v3a5 5 0 0 1-10 0V7a5 5 0 0 1 5-5zM5 22a7 7 0 0 1 14 0"/></svg>
+              </div>
+              <div class="t"><div class="name">Kid's Cut</div><div class="sub">Patient, quick, and a sticker on the way out</div></div>
+            </div>
+            <span class="price">$14</span>
+          </div>
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18M5 8h14M7 16h10"/></svg>
+              </div>
+              <div class="t"><div class="name">Buzz Cut</div><div class="sub">Even, clean, and ready to go</div></div>
+            </div>
+            <span class="price">$12</span>
+          </div>
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v6a6 6 0 0 0 12 0V3"/><path d="M6 8h12"/></svg>
+              </div>
+              <div class="t"><div class="name">Beard Trim</div><div class="sub">Sharp lines and a warm towel finish</div></div>
+            </div>
+            <span class="price">$10</span>
+          </div>
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c4-6 14-6 18 0"/><path d="M3 12c4 6 14 6 18 0"/></svg>
+              </div>
+              <div class="t"><div class="name">Style</div><div class="sub">Wash, blow-dry, and finishing touches</div></div>
+            </div>
+            <span class="price">$15</span>
+          </div>
+        </div>
+        <p class="note" role="note">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l3 2"/></svg>
+          </span>
+          <span><b>Walk right in.</b> No appointment needed for any of the services above. We're open Tue–Sat and ready when you are.</span>
+        </p>
+      </div>
+
+      <div class="panel" id="tab-color-panel" role="tabpanel" aria-labelledby="tab-color">
+        <div class="price-grid">
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v6M8 5l4-2 4 2"/><path d="M6 14a6 6 0 0 0 12 0"/></svg>
+              </div>
+              <div class="t"><div class="name">Root Touch-Up</div><div class="sub">Quick cover between full colors</div></div>
+            </div>
+            <span class="price">$40</span>
+          </div>
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18M12 3a9 9 0 0 1 0 18"/></svg>
+              </div>
+              <div class="t"><div class="name">Full Color</div><div class="sub">All-over, even, and long-lasting</div></div>
+            </div>
+            <span class="price">$55</span>
+          </div>
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M5 8h14M5 16h14"/></svg>
+              </div>
+              <div class="t"><div class="name">Highlights</div><div class="sub">Foil work for natural dimension</div></div>
+            </div>
+            <span class="price">$70</span>
+          </div>
+          <div class="svc">
+            <div class="left">
+              <div class="ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8c4 0 4 4 8 4s4-4 8-4M5 16c4 0 4-4 8-4s4 4 8 4"/></svg>
+              </div>
+              <div class="t"><div class="name">Perm</div><div class="sub">Soft waves or bouncy curls</div></div>
+            </div>
+            <span class="price">$50</span>
+          </div>
+        </div>
+        <p class="note" role="note">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </span>
+          <span><b>Color ties up a chair.</b> Please book 1 to 2½ hours ahead so your stylist can give your color the time it deserves. Walk-ins welcome only if a chair is open.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STYLISTS ────────────────────────────────────────── -->
+<section id="stylists" class="stylists" aria-labelledby="st-h">
+  <div class="wrap">
+    <span class="eyebrow">The team</span>
+    <h2 id="st-h">Two chairs, two neighbors you already know.</h2>
+    <p class="sub">We're a small shop — and we like it that way. You'll see the same friendly faces every time.</p>
+    <div class="stylist-grid">
+      <article class="stylist">
+        <div class="avatar a" aria-hidden="true">JM</div>
+        <div class="meta">
+          <h3>Chair 1 · Jamie M.</h3>
+          <span class="role">Owner · 9 years cutting</span>
+          <p>Specializes in classic men's cuts, kid's trims, and the kind of color that still looks good six weeks in.</p>
+          <span class="pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+            Walks-ins · Color · Perms
+          </span>
+        </div>
+      </article>
+      <article class="stylist">
+        <div class="avatar b" aria-hidden="true">RC</div>
+        <div class="meta">
+          <h3>Chair 2 · Riley C.</h3>
+          <span class="role">Stylist · Highlights &amp; style</span>
+          <p>Loves a good layered cut, soft highlights, and helping you find the easiest everyday style for your hair.</p>
+          <span class="pill">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+            Color · Highlights · Style
+          </span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HOURS + FIND US ─────────────────────────────────── -->
+<section id="hours" class="visit" aria-labelledby="v-h">
+  <div class="wrap">
+    <span class="eyebrow">Come see us</span>
+    <h2 id="v-h">Hours &amp; find us.</h2>
+    <p class="sub">Stop by 415 Main Street in Hazard — there's almost always a chair open.</p>
+    <div class="visit-grid">
+      <div class="card" id="visit-hours">
+        <h3>Salon Hours</h3>
+        <span class="open-now" aria-live="polite"><span class="dot" aria-hidden="true"></span> Open today · walk-ins welcome</span>
+        <ul class="hours-list">
+          <li><span class="day">Monday</span><span class="closed">Closed</span></li>
+          <li><span class="day">Tuesday</span><span class="time">9:00 AM – 5:30 PM</span></li>
+          <li><span class="day">Wednesday</span><span class="time">9:00 AM – 5:30 PM</span></li>
+          <li><span class="day">Thursday</span><span class="time">9:00 AM – 6:30 PM</span></li>
+          <li><span class="day">Friday</span><span class="time">9:00 AM – 6:30 PM</span></li>
+          <li><span class="day">Saturday</span><span class="time">9:00 AM – 4:00 PM</span></li>
+          <li><span class="day">Sunday</span><span class="closed">Closed</span></li>
+        </ul>
+      </div>
+      <div class="card map-card">
+        <h3>Find Us</h3>
+        <div class="map" aria-label="Map of 415 Main Street, Hazard, KY">
+          <svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <!-- grid streets -->
+            <g stroke="#0f6b63" stroke-opacity=".12" stroke-width="1">
+              <path d="M0 40 H400 M0 90 H400 M0 140 H400 M0 190 H400"/>
+              <path d="M60 0 V220 M140 0 V220 M220 0 V220 M300 0 V220 M380 0 V220"/>
+            </g>
+            <!-- river -->
+            <path d="M-20 160 Q 100 130 200 165 T 420 150 L420 220 L-20 220 Z" fill="#a4dad2" opacity=".55"/>
+            <!-- blocks -->
+            <g fill="#f2856d" opacity=".14">
+              <rect x="150" y="60" width="60" height="40" rx="6"/>
+              <rect x="220" y="60" width="60" height="40" rx="6"/>
+              <rect x="150" y="110" width="60" height="40" rx="6"/>
+            </g>
+            <!-- main street line -->
+            <path d="M0 110 H400" stroke="#0f6b63" stroke-width="3" opacity=".4"/>
+            <text x="12" y="106" font-family="Nunito, sans-serif" font-size="10" font-weight="800" fill="#0f6b63" opacity=".6">MAIN ST</text>
+          </svg>
+          <span class="pin" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.6"/></svg>
+          </span>
+        </div>
+        <div class="addr">
+          <span class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z"/><circle cx="12" cy="9" r="2.6"/></svg>
+          </span>
+          <div>
+            415 Main St, Hazard, KY 41701
+            <small>Across from the old theater · easy parking on 4th</small>
+          </div>
+        </div>
+        <div class="visit-cta">
+          <a href="#" class="btn btn-primary" id="book">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>
+            Book an Appointment
+          </a>
+          <a href="tel:+16064355555" class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92V21a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 2.05 4.18 2 2 0 0 1 4 2h4.09a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.91 10.09a16 16 0 0 0 6 6l1.45-1.45a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call (606) 435‑5555
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ──────────────────────────────────────────── -->
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand">
+          <span class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" color="#fff">
+              <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+              <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+              <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+              <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+            </svg>
+          </span>
+          Top Cuts
+        </div>
+        <p class="tag">A friendly neighborhood salon on Main Street in Hazard, Kentucky. Walk-ins welcome, color by appointment.</p>
+        <p style="margin-top:14px"><span class="pill-walkin">Walk-ins welcome today</span></p>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <ul>
+          <li>415 Main St</li>
+          <li>Hazard, KY 41701</li>
+          <li><a href="tel:+16064355555">(606) 435‑5555</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Hours</h4>
+        <ul>
+          <li>Tue–Wed · 9–5:30</li>
+          <li>Thu–Fri · 9–6:30</li>
+          <li>Sat · 9–4</li>
+          <li>Sun &amp; Mon · Closed</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Salon</h4>
+        <ul>
+          <li><a href="#services">Services &amp; prices</a></li>
+          <li><a href="#stylists">Meet the team</a></li>
+          <li><a href="#book">Book online</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yr">2025</span> Top Cuts · Proudly serving Hazard, KY</span>
+      <span>Made with care on Main Street</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

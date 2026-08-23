@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Top Cuts — Hair salon on Main Street, Hazard KY</title>
+<meta name="description" content="Top Cuts is a small, honest hair salon on Main Street in Hazard, Kentucky. Nine years. Two stylists. Cuts by walk-in, color by appointment." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ---------- tokens ---------- */
+  :root{
+    --paper:#f7f4ee;
+    --ink:#161311;
+    --ink-soft:#3a342e;
+    --ink-mute:#6b635a;
+    --rule:#1f1a16;
+    --hairline:rgba(22,19,17,.22);
+    --accent:#c97b24;          /* amber */
+    --paper-2:#efe9dc;         /* a slightly deeper paper for quiet blocks */
+    --paper-edge:#e7e0d1;
+
+    --serif:"Fraunces","Libre Caslon Text","Iowan Old Style",Georgia,serif;
+    --sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+
+    --maxw: 1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+
+    --label: 11px;
+    --tracking: .18em;
+
+    --radius: 0;        /* no rounded cards */
+    --shadow: 0 0 0 1px transparent;
+  }
+
+  /* ---------- reset ---------- */
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "ss01","kern";
+  }
+  img,svg{ display:block; max-width:100%; }
+  a{ color: inherit; text-decoration: none; }
+  button{ font: inherit; cursor: pointer; }
+  :focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ---------- typography ---------- */
+  .display{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings: "opsz" 144, "SOFT" 0;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    color: var(--ink);
+  }
+  .h1{ font-size: clamp(54px, 11vw, 168px); }
+  .h2{ font-size: clamp(34px, 5.4vw, 72px); line-height: 1.02; }
+  .h3{ font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; }
+  .lede{ font-size: clamp(17px, 1.6vw, 21px); line-height: 1.5; color: var(--ink-soft); max-width: 60ch; }
+  .label{
+    font-family: var(--sans);
+    font-size: var(--label);
+    font-weight: 500;
+    letter-spacing: var(--tracking);
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .label--mute{ color: var(--ink-mute); }
+  .rule{ height:1px; background: var(--rule); border:0; margin:0; }
+  .hair{ height:1px; background: var(--hairline); border:0; margin:0; }
+
+  /* ---------- layout helpers ---------- */
+  .wrap{ max-width: var(--maxw); margin: 0 auto; padding: 0 var(--gutter); }
+  .full{ width:100%; }
+  .stack > * + *{ margin-top: var(--gap, 1.2em); }
+  .stack-lg > * + *{ margin-top: var(--gap-lg, 2.4em); }
+
+  /* ---------- nav ---------- */
+  .nav{
+    border-bottom: 1px solid var(--hairline);
+    background: var(--paper);
+  }
+  .nav__inner{
+    display:flex; align-items:center; justify-content:space-between;
+    gap: 24px;
+    padding: 18px var(--gutter);
+    max-width: var(--maxw);
+    margin: 0 auto;
+  }
+  .wordmark{
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    display:inline-flex; align-items:baseline; gap: 8px;
+  }
+  .wordmark .dot{ color: var(--accent); }
+  .nav__links{
+    display: none;
+    gap: 28px;
+    align-items: center;
+  }
+  .nav__links a{
+    font-size: 14px;
+    color: var(--ink-soft);
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .nav__links a::after{
+    content:"";
+    position:absolute; left:0; right:0; bottom:-2px;
+    height:1px; background: var(--ink);
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform .25s ease;
+  }
+  .nav__links a:hover{ color: var(--ink); }
+  .nav__links a:hover::after,
+  .nav__links a:focus-visible::after{ transform: scaleX(1); }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 11px 18px;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: background .2s ease, color .2s ease;
+  }
+  .btn:hover{ background: var(--accent); border-color: var(--accent); color: #1a120a; }
+  .btn--ghost{
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn--ghost:hover{ background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn .arrow{ display:inline-block; transform: translateY(-1px); }
+
+  @media (min-width: 760px){
+    .nav__links{ display:flex; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    border-bottom: 1px solid var(--hairline);
+    padding: clamp(56px, 10vw, 140px) 0 clamp(56px, 8vw, 120px);
+  }
+  .hero__eyebrow{
+    display:flex; align-items:center; gap: 14px;
+    margin-bottom: clamp(24px, 4vw, 48px);
+  }
+  .hero__eyebrow .label{ white-space: nowrap; }
+  .hero__eyebrow .bar{ flex: 1; height:1px; background: var(--ink); }
+  .hero__grid{
+    display:grid; gap: clamp(28px, 4vw, 56px);
+    grid-template-columns: 1fr;
+    align-items: end;
+  }
+  @media (min-width: 960px){
+    .hero__grid{ grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+  }
+  .hero h1 .ital{
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .hero h1 .accent{
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .hero__lede{ margin-top: 28px; }
+  .hero__ctas{
+    margin-top: clamp(28px, 4vw, 44px);
+    display:flex; flex-wrap:wrap; gap: 14px;
+  }
+  .hero__micro{
+    margin-top: 22px;
+    font-size: 13px;
+    color: var(--ink-mute);
+    display:flex; align-items:center; gap: 10px;
+  }
+  .hero__micro .pin{
+    color: var(--accent);
+    display:inline-flex;
+  }
+  .hero__meta{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 28px;
+    padding-top: 8px;
+  }
+  .hero__meta .cell{ display:flex; flex-direction:column; gap: 6px; }
+  .hero__meta dt{ font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mute); margin:0; }
+  .hero__meta dd{ margin:0; font-family: var(--serif); font-size: clamp(20px, 1.8vw, 24px); }
+
+  /* scissors mark */
+  .scissors{
+    width: 18px; height: 18px; color: var(--ink);
+  }
+
+  /* ---------- numbered trust ---------- */
+  .trust{
+    padding: clamp(56px, 8vw, 110px) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .trust__head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap: 24px; margin-bottom: clamp(28px, 4vw, 56px);
+  }
+  .trust__head .label{ max-width: 40ch; }
+  .trust__grid{
+    display:grid; gap: 0;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 760px){
+    .trust__grid{ grid-template-columns: repeat(3, 1fr); }
+  }
+  .trust__cell{
+    padding: 28px 24px 28px 0;
+    border-top: 1px solid var(--ink);
+  }
+  @media (min-width: 760px){
+    .trust__cell{ padding-right: 28px; }
+    .trust__cell + .trust__cell{ padding-left: 28px; border-left: 1px solid var(--hairline); }
+  }
+  .trust__no{
+    font-family: var(--serif);
+    font-size: 14px;
+    color: var(--ink-mute);
+    letter-spacing: 0.02em;
+    display:flex; align-items:center; gap: 10px;
+    margin-bottom: 22px;
+  }
+  .trust__no .num{ font-weight: 500; }
+  .trust__title{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .trust__body{
+    margin-top: 14px;
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.55;
+    max-width: 36ch;
+  }
+
+  /* ---------- prices (editorial menu) ---------- */
+  .prices{
+    padding: clamp(56px, 8vw, 110px) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .prices__head{
+    display:grid; gap: 20px;
+    grid-template-columns: 1fr;
+    align-items: end;
+    margin-bottom: clamp(28px, 4vw, 56px);
+  }
+  @media (min-width: 760px){
+    .prices__head{ grid-template-columns: 1fr auto; }
+  }
+  .prices__cols{
+    display:grid; gap: 0;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 860px){
+    .prices__cols{ grid-template-columns: 1fr 1fr; gap: 0; }
+  }
+  .menu{
+    border-top: 1px solid var(--ink);
+  }
+  .menu + .menu{
+    border-top: 0;
+  }
+  @media (min-width: 860px){
+    .menu + .menu{ border-left: 1px solid var(--hairline); padding-left: 36px; margin-left: 0; }
+  }
+  .menu__title{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(22px, 2.2vw, 28px);
+    letter-spacing: -0.01em;
+    padding: 22px 0 18px;
+    display:flex; align-items:baseline; justify-content:space-between; gap: 16px;
+  }
+  .menu__title .sub{
+    font-family: var(--sans);
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 500;
+  }
+  .menu ol{
+    list-style: none;
+    margin: 0;
+    padding: 0 0 8px;
+  }
+  .menu li{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .menu li:first-child{ border-top: 0; }
+  .menu li .name{
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.6vw, 22px);
+    letter-spacing: -0.005em;
+    position: relative;
+  }
+  .menu li .desc{
+    display:block;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    color: var(--ink-mute);
+    letter-spacing: 0;
+    margin-top: 4px;
+    line-height: 1.45;
+  }
+  /* dotted leader */
+  .menu li .leader{
+    border-bottom: 1.5px dotted var(--ink-mute);
+    height: 1em;
+    margin: 0 8px 4px;
+    align-self: end;
+    order: 2;
+    grid-column: 1 / 2;
+  }
+  .menu li .price{
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    order: 3;
+  }
+  /* restructure li to give room for leader line */
+  .menu li{
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "name price"
+      "leader leader"
+      "desc desc";
+  }
+  .menu li .name{ grid-area: name; }
+  .menu li .price{ grid-area: price; }
+  .menu li .leader{ grid-area: leader; }
+  .menu li .desc{ grid-area: desc; }
+
+  /* ---------- color callout ---------- */
+  .callout{
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    background: var(--paper-2);
+    padding: clamp(40px, 6vw, 72px) 0;
+  }
+  .callout__grid{
+    display:grid; gap: clamp(20px, 4vw, 40px);
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  @media (min-width: 860px){
+    .callout__grid{ grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+  }
+  .callout h3{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .callout h3 em{
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .callout p{
+    margin: 18px 0 0;
+    color: var(--ink-soft);
+    font-size: 16px;
+    max-width: 56ch;
+  }
+  .callout__stat{
+    border-left: 2px solid var(--accent);
+    padding: 6px 0 6px 22px;
+    font-family: var(--serif);
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.15;
+  }
+  .callout__stat .num{
+    font-size: clamp(36px, 4vw, 52px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    display:block;
+  }
+  .callout__stat .lab{
+    display:block;
+    margin-top: 4px;
+    font-family: var(--sans);
+    font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 500;
+  }
+
+  /* ---------- stylists ---------- */
+  .stylists{
+    padding: clamp(56px, 8vw, 110px) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .stylists__head{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap: 24px; margin-bottom: clamp(28px, 4vw, 56px);
+  }
+  .stylists__grid{
+    display:grid; gap: 0;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 760px){
+    .stylists__grid{ grid-template-columns: 1fr 1fr; gap: 0; }
+  }
+  .chair{
+    padding: 28px 0 28px 0;
+    border-top: 1px solid var(--ink);
+  }
+  .chair + .chair{
+    border-top: 1px solid var(--hairline);
+  }
+  @media (min-width: 760px){
+    .chair{ padding-right: 28px; }
+    .chair + .chair{ padding-left: 28px; padding-right: 0; border-top: 1px solid var(--ink); border-left: 1px solid var(--hairline); }
+  }
+  .chair__no{
+    display:flex; align-items:baseline; gap: 14px;
+    margin-bottom: 18px;
+  }
+  .chair__no .label{ color: var(--ink-mute); }
+  .chair__no .num{
+    font-family: var(--serif);
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .chair__name{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    margin: 0;
+  }
+  .chair__role{
+    margin: 10px 0 18px;
+    font-size: 14px;
+    color: var(--ink-mute);
+    letter-spacing: 0.01em;
+  }
+  .chair__body{
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 38ch;
+  }
+  .chair__list{
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 24px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .chair__list li{
+    display:flex; align-items:center; gap: 10px;
+  }
+  .chair__list li::before{
+    content:""; width: 6px; height:1px; background: var(--ink); flex: 0 0 6px;
+  }
+
+  /* ---------- footer (hours / location) ---------- */
+  .foot{
+    padding: clamp(56px, 8vw, 110px) 0 clamp(40px, 5vw, 60px);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .foot__top{
+    display:grid; gap: 0;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 760px){
+    .foot__top{ grid-template-columns: 1.1fr 1fr 1fr; gap: 48px; }
+  }
+  .foot__col{
+    padding: 24px 0;
+    border-top: 1px solid rgba(247,244,238,.4);
+  }
+  @media (min-width: 760px){
+    .foot__col{ border-top: 0; padding-top: 0; }
+  }
+  .foot .label{ color: rgba(247,244,238,.7); }
+  .foot__title{
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(24px, 2.6vw, 34px);
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 14px 0 16px;
+  }
+  .foot p, .foot address, .foot .hours{ font-style: normal; color: var(--paper); }
+  .foot address{ font-size: 15px; line-height: 1.55; }
+  .foot address a{ border-bottom: 1px solid rgba(247,244,238,.4); }
+  .foot address a:hover{ border-color: var(--accent); color: var(--accent); }
+  .hours{
+    list-style: none; padding: 0; margin: 0;
+    font-variant-numeric: tabular-nums;
+    font-size: 15px;
+  }
+  .hours li{
+    display:flex; justify-content:space-between; gap: 12px;
+    padding: 8px 0;
+    border-top: 1px solid rgba(247,244,238,.18);
+  }
+  .hours li:last-child{ border-bottom: 1px solid rgba(247,244,238,.18); }
+  .hours li .day{ color: rgba(247,244,238,.8); }
+  .hours li.closed .day,
+  .hours li.closed{ color: rgba(247,244,238,.55); }
+  .hours li.today{
+    color: var(--accent);
+  }
+  .hours li.today .day{ color: var(--accent); }
+
+  .foot__bottom{
+    margin-top: clamp(40px, 5vw, 64px);
+    border-top: 1px solid rgba(247,244,238,.18);
+    padding-top: 20px;
+    display:flex; align-items:center; justify-content:space-between; gap: 16px; flex-wrap: wrap;
+    font-size: 12.5px;
+    color: rgba(247,244,238,.6);
+  }
+  .foot__bottom .mark{
+    font-family: var(--serif);
+    font-size: 18px;
+    color: var(--paper);
+    letter-spacing: -0.01em;
+  }
+  .foot__bottom .dot{ color: var(--accent); }
+
+  /* utility */
+  .sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="nav" role="banner">
+  <div class="nav__inner">
+    <a class="wordmark" href="#top" aria-label="Top Cuts home">
+      Top&nbsp;Cuts<span class="dot">.</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#stylists">Stylists</a>
+      <a href="#hours">Hours</a>
+      <a href="#visit">Visit</a>
+      <a class="btn" href="#book">
+        Book Online
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </nav>
+    <a class="btn" style="display:inline-flex;" href="#book">
+      Book Online
+      <span class="arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero__eyebrow">
+        <span class="label">Hazard, Kentucky · Est. 2016</span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="label label--mute">A small salon on Main Street</span>
+      </div>
+
+      <div class="hero__grid">
+        <div>
+          <h1 class="display h1" id="hero-title">
+            Good hair,<br/>
+            <span class="ital">honest</span> prices,<br/>
+            <span class="accent">neighbors</span> who remember.
+          </h1>
+
+          <p class="lede hero__lede">
+            Nine years on Main Street. Two stylists who know your name.
+            Pull up a chair — we&rsquo;ll get you in today.
+          </p>
+
+          <div class="hero__ctas">
+            <a class="btn" href="#book">
+              Book an Appointment
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn--ghost" href="#services">
+              See Services
+            </a>
+          </div>
+
+          <p class="hero__micro">
+            <span class="pin" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/>
+                <circle cx="12" cy="10" r="2.5"/>
+              </svg>
+            </span>
+            Walk-ins welcome · cuts only
+          </p>
+        </div>
+
+        <dl class="hero__meta" aria-label="Salon at a glance">
+          <div class="cell">
+            <dt>Hours today</dt>
+            <dd>9:00 – 5:30</dd>
+          </div>
+          <div class="cell">
+            <dt>Walk-ins</dt>
+            <dd>Cuts · today</dd>
+          </div>
+          <div class="cell">
+            <dt>Color</dt>
+            <dd>By appointment</dd>
+          </div>
+          <div class="cell">
+            <dt>Address</dt>
+            <dd>415 Main St</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="trust" aria-labelledby="trust-title">
+    <div class="wrap">
+      <div class="trust__head">
+        <h2 class="display h2" id="trust-title">A small shop,<br/>built on repeat visits.</h2>
+        <p class="label label--mute">Three things we won&rsquo;t change.</p>
+      </div>
+
+      <div class="trust__grid">
+        <article class="trust__cell">
+          <div class="trust__no"><span class="num">01</span><span class="bar" style="width:18px;height:1px;background:var(--ink);display:inline-block;"></span></div>
+          <h3 class="trust__title">Nine years on Main Street.</h3>
+          <p class="trust__body">
+            We opened on this block in 2016. Most of our week is regulars — and the rest, their cousins.
+          </p>
+        </article>
+
+        <article class="trust__cell">
+          <div class="trust__no"><span class="num">02</span><span class="bar" style="width:18px;height:1px;background:var(--ink);display:inline-block;"></span></div>
+          <h3 class="trust__title">Two stylists who know your name.</h3>
+          <p class="trust__body">
+            Chair&nbsp;1 and Chair&nbsp;2. That&rsquo;s the whole team. We&rsquo;re not a chain, and we&rsquo;re not trying to be.
+          </p>
+        </article>
+
+        <article class="trust__cell">
+          <div class="trust__no"><span class="num">03</span><span class="bar" style="width:18px;height:1px;background:var(--ink);display:inline-block;"></span></div>
+          <h3 class="trust__title">Prices that respect you.</h3>
+          <p class="trust__body">
+            An adult cut is eighteen dollars. We&rsquo;d rather charge less and see you again than charge more and not.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICES -->
+  <section class="prices" id="services" aria-labelledby="services-title">
+    <div class="wrap">
+      <div class="prices__head">
+        <h2 class="display h2" id="services-title">
+          Services &amp; prices.<br/>
+          <span class="ital" style="font-style:italic; font-weight:400; color:var(--ink-soft);">Plainly listed.</span>
+        </h2>
+        <p class="label label--mute">Effective this season</p>
+      </div>
+
+      <div class="prices__cols">
+        <!-- Walk-in menu -->
+        <div class="menu" aria-label="Walk-in services">
+          <div class="menu__title">
+            Walk-in services
+            <span class="sub">No appointment needed</span>
+          </div>
+          <ol>
+            <li>
+              <span class="name">Adult Cut<span class="desc">Wash, cut, finished with a quick blow-dry.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$18</span>
+            </li>
+            <li>
+              <span class="name">Kid&rsquo;s Cut<span class="desc">Ages 12 and under. Patient, quick, no fuss.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$14</span>
+            </li>
+            <li>
+              <span class="name">Buzz<span class="desc">One length all over with the clippers.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$12</span>
+            </li>
+            <li>
+              <span class="name">Beard Trim<span class="desc">Shape up with clippers, straight razor edges.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$10</span>
+            </li>
+            <li>
+              <span class="name">Style<span class="desc">Blow-out and finishing for an event or just because.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$15</span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- By appointment -->
+        <div class="menu" aria-label="By-appointment services">
+          <div class="menu__title">
+            By appointment
+            <span class="sub">Color &amp; chemical</span>
+          </div>
+          <ol>
+            <li>
+              <span class="name">Root Touch-Up<span class="desc">Up to 4 weeks of regrowth, single-process.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$40</span>
+            </li>
+            <li>
+              <span class="name">Full Color<span class="desc">All-over single-process color, head to ends.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$55</span>
+            </li>
+            <li>
+              <span class="name">Highlights<span class="desc">Foil highlights with toner and finishing blow-out.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$70</span>
+            </li>
+            <li>
+              <span class="name">Perm<span class="desc">Wrapped, processed, and finished. Includes style.</span></span>
+              <span class="leader" aria-hidden="true"></span>
+              <span class="price">$50</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALLOUT -->
+  <section class="callout" aria-labelledby="callout-title">
+    <div class="wrap">
+      <div class="callout__grid">
+        <div>
+          <p class="label" style="margin-bottom:14px;">A note about color</p>
+          <h3 id="callout-title">
+            Color appointments <em>hold a chair</em><br/>
+            for 75 to 150 minutes.
+          </h3>
+          <p>
+            We don&rsquo;t double-book, and we don&rsquo;t rush. Booking your color in advance is how we guarantee the chair, the stylist, and the time your hair needs. Cuts stay walk-in so you&rsquo;re never waiting for a trim.
+          </p>
+        </div>
+        <aside class="callout__stat" aria-label="Color appointment length">
+          <span class="num">75 – 150</span>
+          <span class="lab">Minutes per color service</span>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- STYLISTS -->
+  <section class="stylists" id="stylists" aria-labelledby="stylists-title">
+    <div class="wrap">
+      <div class="stylists__head">
+        <h2 class="display h2" id="stylists-title">Two chairs.<br/>One conversation at a time.</h2>
+        <p class="label label--mute">Meet the team</p>
+      </div>
+
+      <div class="stylists__grid">
+        <article class="chair">
+          <div class="chair__no">
+            <span class="label">Chair</span>
+            <span class="num">01</span>
+          </div>
+          <h3 class="chair__name">Wanda&nbsp;Combs</h3>
+          <p class="chair__role">Owner · Stylist since 2008</p>
+          <p class="chair__body">
+            Cuts, color, perms — the full chair. Wanda bought the shop in 2016 and still works every day except Sundays.
+          </p>
+          <ul class="chair__list" aria-label="Wanda specialties">
+            <li>Women&rsquo;s cuts</li>
+            <li>Men&rsquo;s cuts</li>
+            <li>Single-process color</li>
+            <li>Perms</li>
+          </ul>
+        </article>
+
+        <article class="chair">
+          <div class="chair__no">
+            <span class="label">Chair</span>
+            <span class="num">02</span>
+          </div>
+          <h3 class="chair__name">Jessie&nbsp;Hale</h3>
+          <p class="chair__role">Stylist · Joined 2019</p>
+          <p class="chair__body">
+            Highlights, foils, and kid&rsquo;s cuts that end with a sticker. Jessie is the one your neighbor recommended.
+          </p>
+          <ul class="chair__list" aria-label="Jessie specialties">
+            <li>Highlights</li>
+            <li>Root touch-ups</li>
+            <li>Kid&rsquo;s cuts</li>
+            <li>Beard trims</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOT -->
+<footer class="foot" id="hours" aria-labelledby="foot-title">
+  <h2 id="foot-title" class="sr">Hours and location</h2>
+  <div class="wrap">
+    <div class="foot__top">
+      <div class="foot__col">
+        <p class="label">Hours</p>
+        <p class="foot__title">Open most days.<br/>Closed Sunday.</p>
+        <ul class="hours">
+          <li><span class="day">Monday</span><span>9:00 – 5:30</span></li>
+          <li class="today"><span class="day">Tuesday</span><span>9:00 – 5:30</span></li>
+          <li><span class="day">Wednesday</span><span>9:00 – 5:30</span></li>
+          <li><span class="day">Thursday</span><span>9:00 – 7:00</span></li>
+          <li><span class="day">Friday</span><span>9:00 – 6:00</span></li>
+          <li><span class="day">Saturday</span><span>9:00 – 3:00</span></li>
+          <li class="closed"><span class="day">Sunday</span><span>Closed</span></li>
+        </ul>
+      </div>
+
+      <div class="foot__col" id="visit">
+        <p class="label">Visit</p>
+        <p class="foot__title">415 Main Street,<br/>Hazard, KY 41701</p>
+        <address>
+          Above the hardware store,<br/>
+          between the pharmacy and the diner.<br/><br/>
+          <a href="tel:+16064320100">(606) 432&ndash;0100</a><br/>
+          <a href="mailto:hello@topcutshazard.com">hello@topcutshazard.com</a>
+        </address>
+      </div>
+
+      <div class="foot__col">
+        <p class="label">Booking</p>
+        <p class="foot__title">Cuts: walk right in.<br/>Color: book ahead.</p>
+        <p style="font-size:14px; color: rgba(247,244,238,.8); max-width:30ch; margin-top:8px;">
+          For Root Touch-Up, Full Color, Highlights, or Perm — call or book online so we can hold your chair.
+        </p>
+        <p style="margin-top:18px;">
+          <a class="btn" href="#book" style="background:var(--accent); border-color:var(--accent); color:#1a120a;">
+            Book Online <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <div class="foot__bottom">
+      <span class="mark">Top&nbsp;Cuts<span class="dot">.</span></span>
+      <span>© 2016&ndash;2025 · 415 Main St, Hazard KY 41701</span>
+      <span>Made in the mountains</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

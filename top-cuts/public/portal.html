@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My visits — Top Cuts</title>
+<meta name="description" content="Look up your Top Cuts appointments with your phone number or confirmation code. View upcoming visits or cancel ahead of time." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/styles.css" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav__inner container">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="/img/icons.svg#scissors"></use></svg>
+      <span class="brand__name">Top&nbsp;Cuts</span>
+    </a>
+    <nav class="nav__links" aria-label="Main">
+      <a href="/">Home</a>
+      <a class="btn btn--primary btn--small" href="/booking.html">Book Online</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container container--narrow">
+    <p class="label">Customer portal</p>
+    <h1 class="page-title">Your visits</h1>
+
+    <form id="lookup-form" class="lookup-form" novalidate>
+      <input class="input" id="lookup-input" placeholder="(606) … or TC- code"
+        inputmode="tel" autocomplete="tel" aria-label="Phone number or confirmation code" />
+      <button class="btn btn--primary" type="submit">Find my visits</button>
+    </form>
+
+    <div id="results" aria-live="polite"></div>
+  </div>
+</main>
+
+<!-- Cancel confirmation modal -->
+<div class="modal" id="cancel-modal" hidden role="dialog" aria-modal="true" aria-labelledby="cancel-title">
+  <div class="modal__box">
+    <h2 id="cancel-title">Cancel this visit?</h2>
+    <p>Your spot goes back on the board for someone else. You can always rebook — but color days fill up fast.</p>
+    <div class="modal__actions">
+      <button class="btn btn--ghost" id="cancel-dismiss" type="button">Keep it</button>
+      <button class="btn btn--danger" id="cancel-confirm" type="button">Yes, cancel</button>
+    </div>
+    <button class="btn btn--ghost btn--small" id="cancel-close" type="button" style="position:absolute;top:10px;right:10px;border:0" aria-label="Close">×</button>
+  </div>
+</div>
+
+<footer class="footer footer--minimal">
+  <div class="container footer__inner">
+    <p>Top Cuts · 415 Main St, Hazard, KY 41701 · <span id="shop-phone" data-phone></span></p>
+  </div>
+</footer>
+
+<script type="module" src="/js/portal.js"></script>
+<script>/* fill phone from config via common renderer */</script>
+</body>
+</html>
