@@ -1,0 +1,142 @@
+{
+  "_comment": "Top Cuts configuration. Everything the owner may want to change lives here — no code edits needed. Items marked ASSUMPTION were not verifiable online; confirm with the shop.",
+
+  "business": {
+    "name": "Top Cuts",
+    "address": "415 Main St, Hazard, KY 41701",
+    "shortAddress": "415 Main St, Hazard",
+    "mapUrl": "https://maps.google.com/?q=Top+Cuts,+415+Main+St,+Hazard,+KY+41701",
+    "phone": "(606) 000-0000",
+    "phoneAssumption": true,
+    "yearsInBusiness": 9,
+    "bookingWindowDays": 21,
+    "minLeadMinutes": 30,
+    "slotIntervalMinutes": 15,
+    "turnoverBufferMinutes": 10,
+    "cancelCutoffHours": 2
+  },
+
+  "hours": {
+    "comment": "ASSUMPTION — keyed by JS getDay(): 0=Sunday … 6=Saturday. null = closed. Ranges are [open, close] in 24h wall time.",
+    "0": null,
+    "1": null,
+    "2": [["09:00", "17:30"]],
+    "3": [["09:00", "17:30"]],
+    "4": [["09:00", "17:30"]],
+    "5": [["09:00", "17:30"]],
+    "6": [["09:00", "15:00"]]
+  },
+
+  "stylists": [
+    {
+      "id": "chair-1",
+      "name": "Chair 1",
+      "role": "Owner / Senior Stylist",
+      "bio": "ASSUMPTION placeholder — replace with the owner's name and a line about their specialties.",
+      "initials": "T"
+    },
+    {
+      "id": "chair-2",
+      "name": "Chair 2",
+      "role": "Stylist",
+      "bio": "ASSUMPTION placeholder — replace with the second stylist's name and specialties.",
+      "initials": "T"
+    }
+  ],
+
+  "services": [
+    {
+      "id": "adult-cut",
+      "name": "Adult Cut",
+      "group": "cuts",
+      "minutes": 30,
+      "price": 18,
+      "priceNote": "",
+      "walkinFriendly": true,
+      "description": "Clipper or scissor cut, neckline cleanup, styled finish."
+    },
+    {
+      "id": "kids-cut",
+      "name": "Kid's Cut (12 & under)",
+      "group": "cuts",
+      "minutes": 25,
+      "price": 14,
+      "priceNote": "",
+      "walkinFriendly": true,
+      "description": "Patient, friendly cuts for little ones."
+    },
+    {
+      "id": "buzz-cut",
+      "name": "Buzz Cut",
+      "group": "cuts",
+      "minutes": 15,
+      "price": 12,
+      "priceNote": "",
+      "walkinFriendly": true,
+      "description": "One length all over, edged up clean."
+    },
+    {
+      "id": "beard-trim",
+      "name": "Beard Trim",
+      "group": "cuts",
+      "minutes": 15,
+      "price": 10,
+      "priceNote": "",
+      "walkinFriendly": true,
+      "description": "Shape, line, and tidy."
+    },
+    {
+      "id": "blowout-style",
+      "name": "Wash & Style",
+      "group": "cuts",
+      "minutes": 30,
+      "price": 15,
+      "priceNote": "",
+      "walkinFriendly": true,
+      "description": "Shampoo, blow-dry, and a polished finish."
+    },
+    {
+      "id": "root-touchup",
+      "name": "Root Touch-Up",
+      "group": "color",
+      "minutes": 75,
+      "price": 40,
+      "priceNote": "and up",
+      "walkinFriendly": false,
+      "description": "Color refresh at the roots to blend grays or extend your look."
+    },
+    {
+      "id": "full-color",
+      "name": "Full Color",
+      "group": "color",
+      "minutes": 105,
+      "price": 55,
+      "priceNote": "and up",
+      "walkinFriendly": false,
+      "description": "Single-process color, root to end."
+    },
+    {
+      "id": "highlights",
+      "name": "Highlights",
+      "group": "color",
+      "minutes": 150,
+      "price": 70,
+      "priceNote": "and up",
+      "walkinFriendly": false,
+      "description": "Foil highlights for dimension and brightness."
+    },
+    {
+      "id": "perm",
+      "name": "Perm",
+      "group": "color",
+      "minutes": 90,
+      "price": 50,
+      "priceNote": "and up",
+      "walkinFriendly": false,
+      "description": "Soft, lasting curls set and finished by hand."
+    }
+  ],
+
+  "staffPin": "1717",
+  "_staffPinComment": "PIN for the staff page (top-cuts/staff.html). Change this before going live."
+}
