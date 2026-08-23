@@ -92,22 +92,6 @@ export function toast(message, kind = 'info') {
   }, 4200);
 }
 
-/** Human-readable hours block for footer/location sections. */
-export function hoursRows(hoursCfg) {
-  const rows = [];
-  for (let d = 0; d < 7; d++) {
-    const ranges = hoursCfg[String(d)];
-    rows.push({
-      day: WEEKDAYS[d],
-      isToday: new Date().getDay() === d,
-      text: !ranges ? 'Closed' : ranges.map(([o, c]) => `${fmtTime(o)} – ${fmtTime(c)}`).join(', '),
-    });
-  }
-  // Monday-first display order
-  const order = [1, 2, 3, 4, 5, 6, 0];
-  return order.map((i) => rows[i]);
-}
-
 /** Build a downloadable .ics calendar invite (floating local time). */
 export function downloadIcs(appt) {
   const compact = appt.date.replaceAll('-', '') + 'T' + appt.time.replace(':', '') + '00';

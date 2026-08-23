@@ -1,0 +1,89 @@
+# Top Cuts — Website + Customer Portal + Online Booking
+
+A complete web presence for **Top Cuts**, 415 Main St, Hazard, KY 41701 — a nine-year-old
+two-chair salon that has run on walk-ins and word of mouth until now. Built with **zero
+npm dependencies**: one Node file serves everything.
+
+```
+node server.js          # http://127.0.0.1:8787   (PORT/HOST env to override)
+```
+
+## What's inside
+
+| Surface | URL | Purpose |
+|---|---|---|
+| Public site | `/` | Hero, price board, color explainer, stylists, hours & map |
+| Booking | `/booking.html` | 4-step wizard: service → day/time → details → confirmation code + `.ics` |
+| Customer portal | `/portal.html` | Look up visits by phone or TC-code; cancel up to 2h before |
+| Staff console | `/staff.html` | PIN-gated books for the next 7 days + one-tap walk-in logging |
+| API | `/api/*` | Config, availability, book, lookup, cancel, staff ops |
+
+## How the books work (the part that matters)
+
+The availability engine encodes how the shop actually runs:
+
+- **Two chairs** (`stylists`) each keep their own schedule from `hours`.
+- Every service has a real duration (`minutes`). A booking blocks its chair for the
+  service plus a `turnoverBufferMinutes` gap.
+- **Color/chemical services take 75–150 minutes** — booking one reshapes the whole day,
+  which is exactly why the site asks color clients to reserve ahead while cuts stay
+  walk-in friendly. The UI separates the two groups and explains why.
+- Slots are on a 15-min grid (`slotIntervalMinutes`), open `bookingWindowDays` ahead,
+  with a `minLeadMinutes` cushion for same-day online bookings (staff walk-in logging
+  bypasses it — they're logging haircuts happening *now*).
+- Customers can cancel online until `cancelCutoffHours` before the visit; after that
+  the site tells them to call.
+
+## Editing things without touching code
+
+Everything owner-changeable lives in **`config.json`**:
+
+- `business` — phone, address, map link, booking window/lead/buffer/cutoff knobs
+- `hours` — per-weekday ranges (`null` = closed); keyed 0=Sunday…6=Saturday
+- `services` — menu with prices, durations, group (`cuts` vs `color`)
+- `stylists` — names/roles/bios (currently placeholders "Chair 1 / Chair 2")
+- `staffPin` — staff console PIN (**change before going live**)
+
+The server validates config at startup and refuses to boot with a clear message if
+something's off. The homepage, booking wizard, hours table — all render from this file.
+
+## Demo data
+
+```sh
+node seed-demo.js     # stop the server first; restart after
+```
+
+Seeds past visits + upcoming color/cut bookings. Portal demo login: phone `(606) 555-0123`.
+Delete `data/db.json` to reset to an empty book.
+
+## Honest limitations (fix before real launch)
+
+This is a launchable MVP, not a bank:
+
+- **Staff auth is a shared PIN** with in-memory sessions (restart = everyone signs in again).
+- **Portal identity is the phone number / confirmation code** — fine for a salon roster,
+  not multi-factor. Cancel-by-code works even without the matching phone.
+- No TLS here — put it behind a reverse proxy or host (see below) before exposing.
+- Data is a single JSON file with atomic writes; plenty for one shop, not for two.
+
+## Deploying later
+
+Any Node host works (`node server.js`). Natural fits:
+
+- **Cloudflare Workers + D1** port of the API (the wall-time model maps directly), Pages for the static shell
+- Or a $5 VPS behind Caddy/nginx for automatic HTTPS
+
+## Design notes
+
+Three parallel design studies were generated (see `design-studies/a|b|c.html`):
+*Hometown Heritage*, *Modern Editorial*, and *Fresh & Friendly*. The production theme
+synthesizes them: study A's cream/espresso/copper letterpress language and ticket-stub
+price cards, study B's typographic discipline (tracked labels, hairline rules, baseline
+rhythm), and study C's big tap targets and friendly microcopy. Fonts are Fraunces +
+Inter via Google Fonts with full offline fallbacks.
+
+## Research
+
+See [RESEARCH.md](RESEARCH.md) — verified facts, the Hazard market scan, and every
+assumption (phone number, exact hours, stylist names, prices) flagged for owner
+confirmation. All assumptions live in `config.json` for one-place editing.

@@ -396,6 +396,7 @@ textarea.input { min-height: 88px; resize: vertical; }
 }
 .modal[hidden] { display: none; }
 .modal__box {
+  position: relative;
   background: var(--paper); border-radius: var(--r-lg); border: 1px solid var(--card-line);
   max-width: 420px; width: 100%; padding: var(--s-6);
   box-shadow: 0 18px 40px rgba(42,26,16,0.35);
