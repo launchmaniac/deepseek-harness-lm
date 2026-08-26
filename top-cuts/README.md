@@ -16,7 +16,15 @@ node server.js          # http://127.0.0.1:8787   (PORT/HOST env to override)
 | Booking | `/booking.html` | 4-step wizard: service → day/time → details → confirmation code + `.ics` |
 | Customer portal | `/portal.html` | Look up visits by phone or TC-code; cancel up to 2h before |
 | Staff console | `/staff.html` | PIN-gated books for the next 7 days + one-tap walk-in logging |
-| API | `/api/*` | Config, availability, book, lookup, cancel, staff ops |
+| **Site admin** | **`/admin.html`** | **PIN-gated management of everything: services/prices, weekly hours, stylists, business info, PIN — plus the same books & walk-in logging** |
+| API | `/api/*` | Config, availability, book, lookup, cancel, staff ops, admin writes |
+
+Admin saves go through `PUT /api/admin/config` section-by-section (business / hours /
+stylists / services). Every write is validated with the same rules the server boots
+with — bad data is rejected loudly, never half-saved — and takes effect immediately,
+no restart. Services still referenced by upcoming appointments cannot be deleted
+(the API returns a 409 telling you to rebook first), and `_comment` documentation keys
+in `config.json` survive edits.
 
 ## How the books work (the part that matters)
 
@@ -36,7 +44,12 @@ The availability engine encodes how the shop actually runs:
 
 ## Editing things without touching code
 
-Everything owner-changeable lives in **`config.json`**:
+The owner-facing way is **`/admin.html`** (same PIN as staff): edit prices and the
+service menu, weekly hours, stylist names/bios, contact info, booking knobs, and the
+PIN itself. Saves go straight to `config.json` through validated endpoints and apply
+instantly — no restart.
+
+Direct file editing also works — everything lives in **`config.json`**:
 
 - `business` — phone, address, map link, booking window/lead/buffer/cutoff knobs
 - `hours` — per-weekday ranges (`null` = closed); keyed 0=Sunday…6=Saturday

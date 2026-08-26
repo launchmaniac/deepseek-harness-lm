@@ -31,24 +31,24 @@ class ApiError extends Error {
 // ---------------------------------------------------------------------------
 // Config
 
-function loadConfig() {
-  let raw;
-  try {
-    raw = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
-  } catch (err) {
-    throw new Error(`config.json is missing or not valid JSON: ${err.message}`);
-  }
+/** Returns a list of problems; empty list means the config is valid. */
+function validateConfig(raw) {
   const problems = [];
   const b = raw.business || {};
   for (const field of ['name', 'address', 'phone']) {
     if (typeof b[field] !== 'string' || !b[field].trim()) problems.push(`business.${field} is required`);
   }
+  for (const field of ['bookingWindowDays', 'minLeadMinutes', 'slotIntervalMinutes', 'turnoverBufferMinutes', 'cancelCutoffHours', 'yearsInBusiness']) {
+    if (b[field] !== undefined && (!Number.isInteger(b[field]) || b[field] < 0)) {
+      problems.push(`business.${field} must be a non-negative integer`);
+    }
+  }
   if (!raw.hours || !Object.keys(raw.hours).length) problems.push('hours must define weekday keys 0-6');
   for (const [day, ranges] of Object.entries(raw.hours || {})) {
     if (!/^[0-6]$/.test(day)) continue; // ignore _comment-style keys
     if (ranges === null) continue;
-    if (!Array.isArray(ranges)) problems.push(`hours.${day} must be null or an array of ranges`);
-    for (const range of ranges) {
+    if (!Array.isArray(ranges) || !ranges.length) problems.push(`hours.${day} must be null or a non-empty array of ranges`);
+    for (const range of ranges || []) {
       const [open, close] = range;
       if (!isHHMM(open) || !isHHMM(close) || hhmmToMin(open) >= hhmmToMin(close)) {
         problems.push(`hours.${day} range ${JSON.stringify(range)} must be ["HH:MM","HH:MM"] with open < close`);
@@ -56,9 +56,14 @@ function loadConfig() {
     }
   }
   if (!Array.isArray(raw.stylists) || raw.stylists.length === 0) problems.push('at least one stylist is required');
+  for (const s of raw.stylists || []) {
+    if (!s.id || !String(s.id).trim()) problems.push('every stylist needs an id');
+    if (!s.name || !String(s.name).trim()) problems.push('every stylist needs a name');
+  }
   const chairIds = new Set((raw.stylists || []).map((s) => s.id));
   if (chairIds.size !== (raw.stylists || []).length) problems.push('stylist ids must be unique');
 
+  if (!Array.isArray(raw.services) || raw.services.length === 0) problems.push('at least one service is required');
   const serviceIds = new Set();
   for (const svc of raw.services || []) {
     if (!svc.id || !svc.name) problems.push('every service needs id and name');
@@ -68,8 +73,26 @@ function loadConfig() {
     if (typeof svc.price !== 'number' || svc.price < 0) problems.push(`service ${svc.id}: price must be a number`);
     if (svc.group !== 'cuts' && svc.group !== 'color') problems.push(`service ${svc.id}: group must be "cuts" or "color"`);
   }
+  return problems;
+}
+
+function loadConfig() {
+  let raw;
+  try {
+    raw = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
+  } catch (err) {
+    throw new Error(`config.json is missing or not valid JSON: ${err.message}`);
+  }
+  const problems = validateConfig(raw);
   if (problems.length) throw new Error(`config.json invalid:\n  - ${problems.join('\n  - ')}`);
   return raw;
+}
+
+/** Atomic write of a full validated config object. */
+async function saveConfigFile(cfgRaw) {
+  const tmp = `${CONFIG_FILE}.tmp`;
+  await fsp.writeFile(tmp, JSON.stringify(cfgRaw, null, 2) + '\n');
+  await fsp.rename(tmp, CONFIG_FILE);
 }
 
 // ---------------------------------------------------------------------------
@@ -499,6 +522,56 @@ async function handleApi(req, res, url) {
     cancelAppointment(cfg, appt, { staffBypass: true });
     await saveDb();
     return sendJson(res, 200, { appointment: joinAppointment(cfg, appt) });
+  }
+
+  // ---- admin (site management; same PIN gate as staff) ----
+
+  if (route === 'POST /api/admin/pin') {
+    const body = await readJsonBody(req);
+    const pin = String(body.pin || '').trim();
+    if (!/^\d{4,8}$/.test(pin)) throw new ApiError(400, 'PIN must be 4 to 8 digits.');
+    cfg.staffPin = pin;
+    delete cfg._staffPinComment;
+    await saveConfigFile(cfg);
+    return sendJson(res, 200, { ok: true });
+  }
+
+  if (route === 'PUT /api/admin/config') {
+    const body = await readJsonBody(req);
+    const section = body.section;
+    if (!['business', 'hours', 'stylists', 'services'].includes(section)) {
+      throw new ApiError(400, 'Unknown config section.');
+    }
+    const next = JSON.parse(JSON.stringify(cfg));
+    next[section] = body.value;
+    // Preserve _comment-style documentation keys when a section is rewritten.
+    const prev = cfg[section];
+    if (prev && typeof prev === 'object' && body.value && typeof body.value === 'object' && !Array.isArray(body.value)) {
+      for (const key of Object.keys(prev)) {
+        if (key.startsWith('_') && !(key in body.value)) next[section][key] = prev[key];
+      }
+    }
+
+    const problems = validateConfig(next);
+    if (problems.length) throw new ApiError(400, `Invalid ${section}: ${problems.join('; ')}`);
+
+    if (section === 'services' && Array.isArray(cfg.services)) {
+      // Services referenced by upcoming bookings cannot disappear.
+      const keptIds = new Set(next.services.map((s) => s.id));
+      const removed = cfg.services.filter((s) => !keptIds.has(s.id));
+      const today = todayStr();
+      for (const removedSvc of removed) {
+        const blockers = db.appointments.filter(
+          (a) => a.status === 'confirmed' && a.date >= today && a.serviceId === removedSvc.id
+        );
+        if (blockers.length) {
+          throw new ApiError(409, `"${removedSvc.name}" has ${blockers.length} upcoming appointment${blockers.length === 1 ? '' : 's'} — cancel or rebook those first.`);
+        }
+      }
+    }
+
+    await saveConfigFile(next);
+    return sendJson(res, 200, { ok: true, config: publicConfig(loadConfig()) });
   }
 
   throw new ApiError(404, 'Not found');

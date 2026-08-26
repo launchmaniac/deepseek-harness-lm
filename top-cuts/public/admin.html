@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Site admin — Top Cuts</title>
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/css/styles.css" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav__inner container">
+    <a class="brand" href="/">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true"><use href="/img/icons.svg#scissors"></use></svg>
+      <span class="brand__name">Top&nbsp;Cuts</span>
+    </a>
+    <nav class="nav__links" aria-label="Main">
+      <a href="/">Public site</a>
+      <a href="/staff.html">Daily books</a>
+      <button class="btn btn--ghost btn--small" id="signout" hidden>Sign out</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="section">
+  <div class="container">
+
+    <!-- PIN gate -->
+    <section id="gate" hidden>
+      <div class="container container--narrow">
+        <p class="label">Owner access</p>
+        <h1 class="page-title">Enter shop PIN</h1>
+        <form id="pin-form" class="pin-form" novalidate>
+          <input class="input pin-input" id="pin-input" type="password" inputmode="numeric"
+            autocomplete="current-password" aria-label="Shop PIN" maxlength="8" />
+          <button class="btn btn--primary" type="submit">Sign in</button>
+        </form>
+        <p class="hint">Same PIN as the staff console — it lives in <code>config.json</code>.</p>
+      </div>
+    </section>
+
+    <!-- Admin console -->
+    <section id="console" hidden>
+      <p class="label">Site management</p>
+      <h1 class="page-title" style="font-size:clamp(30px,4vw,44px)">Run the whole shop from one page</h1>
+      <nav class="subnav" aria-label="Admin sections">
+        <a href="#sec-business">Business info</a>
+        <a href="#sec-hours">Weekly hours</a>
+        <a href="#sec-services">Services &amp; prices</a>
+        <a href="#sec-stylists">Stylists &amp; chairs</a>
+        <a href="#sec-security">Security</a>
+        <a href="#sec-books">The books</a>
+      </nav>
+
+      <!-- Business info -->
+      <section class="admin-card section--pad" id="sec-business" style="margin-top:var(--s-6)">
+        <h2 class="group-title">Business info</h2>
+        <form data-save="business" novalidate>
+          <div class="form-grid">
+            <div class="field"><label class="label" for="b-name">Salon name</label><input class="input" id="b-name" required /></div>
+            <div class="field"><label class="label" for="b-phone">Phone (shown on site)</label><input class="input" id="b-phone" inputmode="tel" /></div>
+            <div class="field field--wide"><label class="label" for="b-address">Address</label><input class="input" id="b-address" /></div>
+            <div class="field field--wide"><label class="label" for="b-map">Google Maps link</label><input class="input" id="b-map" type="url" /></div>
+            <div class="field"><label class="label" for="b-years">Years in business</label><input class="input" id="b-years" type="number" min="0" max="99" /></div>
+            <div class="field"><label class="label" for="b-window">Booking window (days ahead)</label><input class="input" id="b-window" type="number" min="1" max="120" /></div>
+            <div class="field"><label class="label" for="b-lead">Online lead time (min)</label><input class="input" id="b-lead" type="number" min="0" max="240" /></div>
+            <div class="field"><label class="label" for="b-slot">Slot grid (min)</label><input class="input" id="b-slot" type="number" min="5" max="60" step="5" /></div>
+            <div class="field"><label class="label" for="b-buffer">Turnover between visits (min)</label><input class="input" id="b-buffer" type="number" min="0" max="60" /></div>
+            <div class="field"><label class="label" for="b-cutoff">Cancel cutoff (hours before)</label><input class="input" id="b-cutoff" type="number" min="0" max="48" /></div>
+          </div>
+          <div class="btn-row"><button class="btn btn--primary" type="submit">Save business info</button></div>
+        </form>
+      </section>
+
+      <!-- Hours -->
+      <section class="admin-card" id="sec-hours">
+        <h2 class="group-title">Weekly hours</h2>
+        <p class="hint" style="margin-bottom:12px">One open–close range per day. For split shifts (e.g. lunch closures), edit <code>config.json</code> directly.</p>
+        <form data-save="hours" novalidate>
+          <div id="hours-editor"></div>
+          <div class="btn-row"><button class="btn btn--primary" type="submit">Save hours</button></div>
+        </form>
+      </section>
+
+      <!-- Services -->
+      <section class="admin-card" id="sec-services">
+        <h2 class="group-title">Services &amp; prices</h2>
+        <p class="hint" style="margin-bottom:12px">Prices show exactly as entered. Removing a service is blocked while upcoming appointments still use it.</p>
+        <div id="services-editor"></div>
+        <div class="btn-row">
+          <button class="btn btn--ghost" id="add-service" type="button">+ Add a service</button>
+          <button class="btn btn--primary" id="save-services" type="button">Save services &amp; prices</button>
+        </div>
+      </section>
+
+      <!-- Stylists -->
+      <section class="admin-card" id="sec-stylists">
+        <h2 class="group-title">Stylists &amp; chairs</h2>
+        <div id="stylists-editor"></div>
+        <div class="btn-row">
+          <button class="btn btn--ghost" id="add-stylist" type="button">+ Add a chair</button>
+          <button class="btn btn--primary" id="save-stylists" type="button">Save stylists</button>
+        </div>
+      </section>
+
+      <!-- Security -->
+      <section class="admin-card" id="sec-security">
+        <h2 class="group-title">Security</h2>
+        <form id="pin-change" novalidate>
+          <div class="form-grid" style="max-width:480px">
+            <div class="field"><label class="label" for="p-new">New PIN (4–8 digits)</label><input class="input" id="p-new" type="password" inputmode="numeric" maxlength="8" /></div>
+            <div class="field"><label class="label" for="p-confirm">Repeat new PIN</label><input class="input" id="p-confirm" type="password" inputmode="numeric" maxlength="8" /></div>
+          </div>
+          <div class="btn-row"><button class="btn btn--primary" type="submit">Change PIN</button></div>
+        </form>
+      </section>
+
+      <!-- The books -->
+      <section id="sec-books" style="scroll-margin-top:84px">
+        <div class="console-head">
+          <div>
+            <p class="label">Operations</p>
+            <h2 class="page-title" style="font-size:clamp(26px,3.5vw,38px)">The books — next 7 days</h2>
+          </div>
+          <div class="btn-row"><button class="btn btn--ghost btn--small" id="refresh">↻ Refresh</button></div>
+        </div>
+        <div id="appt-list" aria-live="polite"></div>
+
+        <section class="walkin-panel">
+          <h2 class="group-title">Log a walk-in <small>blocks the chair online while they're in the seat</small></h2>
+          <form id="walkin-form" class="walkin-grid" novalidate>
+            <div class="field"><label class="label" for="w-name">Name *</label><input class="input" id="w-name" required maxlength="80" placeholder="Walk-in name" /></div>
+            <div class="field"><label class="label" for="w-service">Service *</label><select class="input" id="w-service"></select></div>
+            <div class="field"><label class="label" for="w-chair">Chair</label><select class="input" id="w-chair"></select></div>
+            <div class="field"><label class="label" for="w-date">Day</label><input class="input" id="w-date" type="date" /></div>
+            <div class="field"><label class="label" for="w-time">Start time</label><select class="input" id="w-time"></select></div>
+            <div class="field"><label class="label" for="w-phone">Phone</label><input class="input" id="w-phone" inputmode="tel" placeholder="optional" /></div>
+            <div class="field field--full"><button class="btn btn--primary" type="submit">Log walk-in</button></div>
+          </form>
+        </section>
+      </section>
+    </section>
+  </div>
+</main>
+
+<footer class="footer footer--minimal">
+  <div class="container footer__inner"><p>Top Cuts site admin</p></div>
+</footer>
+
+<script type="module" src="/js/admin.js"></script>
+</body>
+</html>

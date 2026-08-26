@@ -1,6 +1,5 @@
 {
   "_comment": "Top Cuts configuration. Everything the owner may want to change lives here — no code edits needed. Items marked ASSUMPTION were not verifiable online; confirm with the shop.",
-
   "business": {
     "name": "Top Cuts",
     "address": "415 Main St, Hazard, KY 41701",
@@ -15,18 +14,41 @@
     "turnoverBufferMinutes": 10,
     "cancelCutoffHours": 2
   },
-
   "hours": {
-    "comment": "ASSUMPTION — keyed by JS getDay(): 0=Sunday … 6=Saturday. null = closed. Ranges are [open, close] in 24h wall time.",
     "0": null,
     "1": null,
-    "2": [["09:00", "17:30"]],
-    "3": [["09:00", "17:30"]],
-    "4": [["09:00", "17:30"]],
-    "5": [["09:00", "17:30"]],
-    "6": [["09:00", "15:00"]]
+    "2": [
+      [
+        "09:00",
+        "17:30"
+      ]
+    ],
+    "3": [
+      [
+        "09:00",
+        "17:30"
+      ]
+    ],
+    "4": [
+      [
+        "09:00",
+        "17:30"
+      ]
+    ],
+    "5": [
+      [
+        "09:00",
+        "17:30"
+      ]
+    ],
+    "6": [
+      [
+        "09:00",
+        "15:00"
+      ]
+    ],
+    "_comment": "ASSUMPTION — keyed by JS getDay(): 0=Sunday … 6=Saturday. null = closed. Ranges are [open, close] in 24h wall time."
   },
-
   "stylists": [
     {
       "id": "chair-1",
@@ -43,7 +65,6 @@
       "initials": "T"
     }
   ],
-
   "services": [
     {
       "id": "adult-cut",
@@ -136,7 +157,5 @@
       "description": "Soft, lasting curls set and finished by hand."
     }
   ],
-
-  "staffPin": "1717",
-  "_staffPinComment": "PIN for the staff page (top-cuts/staff.html). Change this before going live."
+  "staffPin": "1717"
 }
