@@ -106,7 +106,7 @@ export function downloadIcs(appt) {
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Top Cuts//Booking//EN', 'BEGIN:VEVENT',
     `UID:${appt.code}@topcuts`, `DTSTAMP:${stamp}`, `DTSTART:${compact}`, `DTEND:${endCompact}`,
     `SUMMARY:Top Cuts — ${appt.serviceName}`,
-    `LOCATION:415 Main St, Hazard, KY 41701`,
+    `LOCATION:33505 Pacific Hwy S, Suite B, Federal Way, WA 98003`,
     `DESCRIPTION:Confirmation ${appt.code} with ${appt.chairName}. Questions? Call the shop.`,
     'END:VEVENT', 'END:VCALENDAR',
   ];

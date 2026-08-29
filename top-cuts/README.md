@@ -1,8 +1,9 @@
 # Top Cuts — Website + Customer Portal + Online Booking
 
-A complete web presence for **Top Cuts**, 415 Main St, Hazard, KY 41701 — a nine-year-old
-two-chair salon that has run on walk-ins and word of mouth until now. Built with **zero
-npm dependencies**: one Node file serves everything.
+A complete web presence for **Top Cuts Salon**, 33505 Pacific Hwy S, Suite B,
+Federal Way, WA 98003 — a nine-year-old two-chair salon that has run on walk-ins and
+word of mouth until now. Built with **zero npm dependencies**: one Node file serves
+everything.
 
 ```
 node server.js          # http://127.0.0.1:8787   (PORT/HOST env to override)
@@ -90,13 +91,21 @@ Any Node host works (`node server.js`). Natural fits:
 
 Three parallel design studies were generated (see `design-studies/a|b|c.html`):
 *Hometown Heritage*, *Modern Editorial*, and *Fresh & Friendly*. The production theme
-synthesizes them: study A's cream/espresso/copper letterpress language and ticket-stub
+synthesizes them: study A's cream/espresso letterpress language and ticket-stub
 price cards, study B's typographic discipline (tracked labels, hairline rules, baseline
 rhythm), and study C's big tap targets and friendly microcopy. Fonts are Fraunces +
 Inter via Google Fonts with full offline fallbacks.
 
+The owner's real logo (black sign, red "TOP CUTS — Perm & Color", `public/img/logo.svg`)
+is now the identity: it anchors the hero as the shop sign, serves as nav/footer
+wordmark (`logo-wordmark.svg`), rebuilt the favicon, and set the accent palette —
+the letterpress accents run in the logo's red (`#ee1b24` family, AA-tuned to `#d41f26`
+for small text) instead of the earlier guessed copper.
+
 ## Research
 
-See [RESEARCH.md](RESEARCH.md) — verified facts, the Hazard market scan, and every
+See [RESEARCH.md](RESEARCH.md) — the verified Federal Way identity (phone, hours,
+owners via WA registry + three directory sources), remaining owner-confirmation items,
+and every
 assumption (phone number, exact hours, stylist names, prices) flagged for owner
 confirmation. All assumptions live in `config.json` for one-place editing.

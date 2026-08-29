@@ -78,17 +78,17 @@ const dayB = nextOpenDay(2);
 const sat = nextSaturday();
 
 const appointments = [
-  appt('adult-cut', pastDate, '10:00', 'chair-1', 'Dana Sizemore', '6065550123', 'completed'),
-  appt('buzz-cut', pastDate, '10:45', 'chair-2', 'Ray Noble', '6065550444', 'completed', 'walkin'),
-  appt('full-color', dayA, '09:00', 'chair-1', 'Maria Combs', '6065550187'),
-  appt('adult-cut', dayA, '10:30', 'chair-2', 'Tyler Adams', '6065550321'),
-  appt('highlights', dayB, '09:00', 'chair-2', 'Bethany Hall', '6065550912'),
-  appt('kids-cut', dayB, '13:00', 'chair-1', 'Mason & mom', '6065550765'),
-  appt('root-touchup', sat, '09:30', 'chair-1', 'Carol Ritchie', '6065550567'),
+  appt('adult-cut', pastDate, '10:00', 'chair-1', 'Dana Reyes', '2535550123', 'completed'),
+  appt('buzz-cut', pastDate, '10:45', 'chair-2', 'Ray Noble', '2535550444', 'completed', 'walkin'),
+  appt('full-color', dayA, '10:00', 'chair-1', 'Maria Combs', '2535550187'),
+  appt('adult-cut', dayA, '14:30', 'chair-2', 'Tyler Adams', '2535550321'),
+  appt('highlights', dayB, '10:00', 'chair-2', 'Bethany Hall', '2535550912'),
+  appt('kids-cut', dayB, '15:00', 'chair-1', 'Mason & mom', '2535550765'),
+  appt('root-touchup', sat, '09:30', 'chair-1', 'Carol Ritchie', '2535550567'),
 ];
 
 fs.mkdirSync(path.dirname(DB_FILE), { recursive: true });
 fs.writeFileSync(DB_FILE, JSON.stringify({ appointments }, null, 2));
 console.log(`Seeded ${appointments.length} demo appointments -> ${DB_FILE}`);
-console.log('Portal demo: look up phone (606) 555-0123 (Dana Sizemore).');
+console.log('Portal demo: look up phone (253) 555-0123 (Dana Reyes).');
 console.log(`Upcoming days used: ${[...new Set([dayA, dayB, sat])].join(', ')}`);

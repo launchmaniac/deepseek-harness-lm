@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" role="img" aria-label="Top Cuts — Perm and Color">
+  <rect width="1000" height="420" fill="#0b0b0d"/>
+  <text x="500" y="205" text-anchor="middle" fill="#ee1b24"
+    font-family="'Arial Black','Archivo Black','Helvetica Neue',Helvetica,sans-serif"
+    font-weight="900" font-size="168" letter-spacing="-4">TOP CUTS</text>
+  <rect x="285" y="262" width="430" height="112" rx="56" fill="#ee1b24"/>
+  <text x="500" y="340" text-anchor="middle" fill="#ffffff"
+    font-family="'Arial Black','Archivo Black','Helvetica Neue',Helvetica,sans-serif"
+    font-weight="900" font-size="66">Perm &amp; Color</text>
+</svg>

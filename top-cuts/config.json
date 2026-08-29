@@ -1,12 +1,12 @@
 {
-  "_comment": "Top Cuts configuration. Everything the owner may want to change lives here — no code edits needed. Items marked ASSUMPTION were not verifiable online; confirm with the shop.",
+  "_comment": "Top Cuts configuration. Everything the owner may want to change lives here — no code edits needed. Identity, phone, and hours verified against public records Aug 2026; see RESEARCH.md.",
+
   "business": {
     "name": "Top Cuts",
-    "address": "415 Main St, Hazard, KY 41701",
-    "shortAddress": "415 Main St, Hazard",
-    "mapUrl": "https://maps.google.com/?q=Top+Cuts,+415+Main+St,+Hazard,+KY+41701",
-    "phone": "(606) 000-0000",
-    "phoneAssumption": true,
+    "address": "33505 Pacific Hwy S, Suite B, Federal Way, WA 98003",
+    "shortAddress": "33505 Pacific Hwy S, Federal Way",
+    "mapUrl": "https://maps.google.com/?q=Top+Cuts+Salon,+33505+Pacific+Hwy+S+Suite+B,+Federal+Way,+WA+98003",
+    "phone": "(253) 754-6810",
     "yearsInBusiness": 9,
     "bookingWindowDays": 21,
     "minLeadMinutes": 30,
@@ -14,57 +14,35 @@
     "turnoverBufferMinutes": 10,
     "cancelCutoffHours": 2
   },
+
   "hours": {
-    "0": null,
+    "_comment": "VERIFIED against two independent sources (Barberhead listing + Google feed payload): Mon closed; Tue-Fri 10-7; Sat 9-6; Sun 10-5.",
+    "0": [["10:00", "17:00"]],
     "1": null,
-    "2": [
-      [
-        "09:00",
-        "17:30"
-      ]
-    ],
-    "3": [
-      [
-        "09:00",
-        "17:30"
-      ]
-    ],
-    "4": [
-      [
-        "09:00",
-        "17:30"
-      ]
-    ],
-    "5": [
-      [
-        "09:00",
-        "17:30"
-      ]
-    ],
-    "6": [
-      [
-        "09:00",
-        "15:00"
-      ]
-    ],
-    "_comment": "ASSUMPTION — keyed by JS getDay(): 0=Sunday … 6=Saturday. null = closed. Ranges are [open, close] in 24h wall time."
+    "2": [["10:00", "19:00"]],
+    "3": [["10:00", "19:00"]],
+    "4": [["10:00", "19:00"]],
+    "5": [["10:00", "19:00"]],
+    "6": [["09:00", "18:00"]]
   },
+
   "stylists": [
     {
       "id": "chair-1",
-      "name": "Chair 1",
+      "name": "Thon",
       "role": "Owner / Senior Stylist",
-      "bio": "ASSUMPTION placeholder — replace with the owner's name and a line about their specialties.",
+      "bio": "Nine years behind the chair in Federal Way — from quick walk-in cuts to full color days.",
       "initials": "T"
     },
     {
       "id": "chair-2",
-      "name": "Chair 2",
-      "role": "Stylist",
-      "bio": "ASSUMPTION placeholder — replace with the second stylist's name and specialties.",
+      "name": "Thuy",
+      "role": "Stylist / Co-owner",
+      "bio": "The other half of Top Cuts — same chairs, same care, prices you can trust.",
       "initials": "T"
     }
   ],
+
   "services": [
     {
       "id": "adult-cut",
@@ -157,5 +135,6 @@
       "description": "Soft, lasting curls set and finished by hand."
     }
   ],
+
   "staffPin": "1717"
 }

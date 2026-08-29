@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Top Cuts — Hair salon on Main Street, Hazard KY · Walk-ins welcome</title>
-<meta name="description" content="Top Cuts is Hazard's hometown salon: nine years on Main Street, two stylists who take pride in their work, and prices that respect you. Walk in for cuts, book ahead for color." />
+<title>Top Cuts Salon — Hair salon in Federal Way WA · Walk-ins welcome</title>
+<meta name="description" content="Top Cuts is Federal Way's hometown salon: nine years on Pacific Hwy S, two stylists who take pride in their work, and prices that respect you. Walk in for cuts, book ahead for color." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -17,8 +17,7 @@
 <header class="nav">
   <div class="nav__inner container">
     <a class="brand" href="/" aria-label="Top Cuts home">
-      <svg class="brand__mark" aria-hidden="true"><use href="/img/icons.svg#scissors"></use></svg>
-      <span class="brand__name">Top&nbsp;Cuts</span>
+      <img class="brand__logo" src="/img/logo-wordmark.svg" alt="Top Cuts — Perm &amp; Color" />
     </a>
     <nav class="nav__links" aria-label="Main">
       <a href="#services">Services &amp; Prices</a>
@@ -33,21 +32,26 @@
 <main id="main">
   <!-- Hero -->
   <section class="hero">
-    <div class="container">
-      <span class="label">Main Street · Hazard, Kentucky</span>
-      <h1 class="hero__title">Good hair, <em>honest</em> prices.</h1>
-      <p class="hero__lede">
-        For nine years, Top Cuts has been where Hazard gets its hair done right —
-        two stylists who take pride in every chair they work, at prices that don't
-        ask you to think twice.
-      </p>
-      <span class="walkin-badge">
-        <svg width="16" height="16" aria-hidden="true"><use href="/img/icons.svg#clock"></use></svg>
-        Walk-ins welcome for everyday cuts
-      </span>
-      <div class="hero__ctas">
-        <a class="btn btn--primary btn--large" href="/booking.html">Book an appointment</a>
-        <a class="btn btn--ghost btn--large" href="#services">See services &amp; prices</a>
+    <div class="container hero__grid">
+      <figure class="hero__logo">
+        <img src="/img/logo.svg" alt="Top Cuts — Perm &amp; Color shop sign" />
+      </figure>
+      <div class="hero__text">
+        <span class="label">Pacific Hwy S · Federal Way, Washington</span>
+        <h1 class="hero__title">Good hair, <em>honest</em> prices.</h1>
+        <p class="hero__lede">
+          For nine years, Top Cuts has been where Federal Way gets its hair done right —
+          two stylists who take pride in every chair they work, at prices that don't
+          ask you to think twice.
+        </p>
+        <span class="walkin-badge">
+          <svg width="16" height="16" aria-hidden="true"><use href="/img/icons.svg#clock"></use></svg>
+          Walk-ins welcome for everyday cuts
+        </span>
+        <div class="hero__ctas">
+          <a class="btn btn--primary btn--large" href="/booking.html">Book an appointment</a>
+          <a class="btn btn--ghost btn--large" href="#services">See services &amp; prices</a>
+        </div>
       </div>
     </div>
   </section>
@@ -55,7 +59,7 @@
   <!-- Trust bar -->
   <section class="trust" aria-label="Why neighbors trust us">
     <div class="trust__inner container">
-      <div class="trust__item"><span class="trust__num">9 yrs</span><span class="trust__text">on Main Street, same town we raise our families in</span></div>
+      <div class="trust__item"><span class="trust__num">9 yrs</span><span class="trust__text">on Pacific Highway — same neighborhood we raise our families in</span></div>
       <div class="trust__item"><span class="trust__num">2</span><span class="trust__text">stylists who learn your name — and your haircut</span></div>
       <div class="trust__item"><span class="trust__num">Walk-in</span><span class="trust__text">everyday cuts, no appointment needed</span></div>
       <div class="trust__item"><span class="trust__num">$18</span><span class="trust__text">adult cuts — quality without the salon markup</span></div>
@@ -109,8 +113,8 @@
       <p class="label">Who's behind the chairs</p>
       <h2 class="page-title">Our stylists</h2>
       <p class="section-lede" style="margin-block:12px var(--s-6)">
-        Two chairs, zero attitude. Between them they've seen every head in Perry County —
-        and they still treat each one like it matters.
+        Two chairs, zero attitude. Between them they've kept this corner of
+        Federal Way looking sharp for nine years — and still treat each head like it matters.
       </p>
       <div class="stylist-grid" id="stylist-grid"></div>
     </div>
@@ -133,7 +137,7 @@
             <strong data-address></strong><br /><br />
             <svg style="display:inline-block;width:15px;height:15px;vertical-align:-2px;color:var(--copper)" aria-hidden="true"><use href="/img/icons.svg#phone"></use></svg>
             <span data-phone></span><br /><br />
-            Right on Main Street — look for the shop that's been there nine years.<br />
+            Right on Pacific Hwy S, Suite B — look for the shop that's been there nine years.<br />
             <a data-map-link target="_blank" rel="noopener">Open in Google Maps ↗</a>
           </p>
         </div>
@@ -149,8 +153,8 @@
 <footer class="footer">
   <div class="container footer__grid">
     <div>
-      <div class="footer__brand">Top&nbsp;Cuts</div>
-      <p class="footer__tag">Hazard's hometown salon. Pride in the work, fair in the price — since day one on Main Street.</p>
+      <img class="footer__logo" src="/img/logo-wordmark.svg" alt="Top Cuts — Perm &amp; Color" />
+      <p class="footer__tag">Federal Way's hometown salon. Pride in the work, fair in the price — nine years strong on Pacific Hwy S.</p>
     </div>
     <div>
       <h3>The shop</h3>
@@ -169,7 +173,7 @@
     </div>
   </div>
   <div class="container footer__bottom">
-    <span>© <span id="year"></span> Top Cuts · Hazard, Kentucky</span>
+    <span>© <span id="year"></span> Top Cuts · Federal Way, Washington</span>
     <a href="/staff.html">Staff sign-in</a>
   </div>
 </footer>
