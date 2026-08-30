@@ -12,6 +12,7 @@ import fsp from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { createGhlClientFromEnv, GhlApiError, partsInTimeZone, zonedDateTimeToIso } from './ghl.js';
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC_DIR = path.join(ROOT, 'public');
@@ -20,6 +21,9 @@ const DB_FILE = path.join(DATA_DIR, 'db.json');
 const CONFIG_FILE = path.join(ROOT, 'config.json');
 const PORT = Number(process.env.PORT || 8787);
 const HOST = process.env.HOST || '127.0.0.1';
+const TIMEZONE = 'America/Los_Angeles';
+
+let ghl;
 
 class ApiError extends Error {
   constructor(status, message) {
@@ -173,13 +177,29 @@ function dayRanges(cfg, dateStr) {
   return ranges ? ranges.map(([o, c]) => [hhmmToMin(o), hhmmToMin(c)]) : [];
 }
 
-function blockedIntervals(cfg, dateStr, chairId) {
-  return db.appointments
-    .filter((a) => a.status === 'confirmed' && a.date === dateStr && a.chairId === chairId)
-    .map((a) => {
-      const start = hhmmToMin(a.time);
-      return [start, start + a.minutes + cfg.business.turnoverBufferMinutes];
-    });
+async function blockedIntervals(cfg, dateStr, chairId) {
+  const timezone = cfg.business.timezone || TIMEZONE;
+  const startMs = Date.parse(zonedDateTimeToIso(dateStr, '00:00', timezone));
+  const endMs = Date.parse(zonedDateTimeToIso(addDays(dateStr, 1), '00:00', timezone));
+  const events = await ghl.listCalendarEvents({
+    calendarId: ghl.calendarIdForChair(chairId),
+    startMs,
+    endMs,
+  });
+  return events.flatMap((event) => {
+    const status = event.appointmentStatus || event.status || 'confirmed';
+    if (event.deleted || status === 'cancelled' || status === 'invalid') return [];
+    const startAt = new Date(event.startTime);
+    if (Number.isNaN(startAt.getTime())) return [];
+    const localStart = partsInTimeZone(startAt, timezone);
+    if (localStart.date !== dateStr) return [];
+    const start = localStart.hour * 60 + localStart.minute;
+    const endAt = new Date(event.endTime);
+    const duration = Number.isNaN(endAt.getTime())
+      ? 30
+      : Math.max(1, Math.round((endAt.getTime() - startAt.getTime()) / 60_000));
+    return [[start, start + duration + cfg.business.turnoverBufferMinutes]];
+  });
 }
 
 function overlaps([s1, e1], [s2, e2]) {
@@ -190,7 +210,7 @@ function overlaps([s1, e1], [s2, e2]) {
  * All bookable start times for one date + service across chairs.
  * Returns { closed, reason?, slots: [{ time, chairs: [chairId...] }] }
  */
-function availabilityFor(cfg, dateStr, service, onlyChair, { ignoreLead = false } = {}) {
+async function availabilityFor(cfg, dateStr, service, onlyChair, { ignoreLead = false } = {}) {
   const chairs = onlyChair ? cfg.stylists.filter((c) => c.id === onlyChair) : cfg.stylists;
   if (!chairs.length) throw new ApiError(400, 'Unknown stylist.');
 
@@ -205,8 +225,12 @@ function availabilityFor(cfg, dateStr, service, onlyChair, { ignoreLead = false 
   const lead = ignoreLead ? -1 : cfg.business.minLeadMinutes;
   const earliest = dateStr === today ? nowMinutes() + lead : -1;
   const perChair = new Map();
+  const blockedByChair = new Map(await Promise.all(chairs.map(async (chair) => [
+    chair.id,
+    await blockedIntervals(cfg, dateStr, chair.id),
+  ])));
   for (const chair of chairs) {
-    const blocked = blockedIntervals(cfg, dateStr, chair.id);
+    const blocked = blockedByChair.get(chair.id);
     const times = [];
     for (const [open, close] of ranges) {
       for (let t = open; t + service.minutes <= close; t += cfg.business.slotIntervalMinutes) {
@@ -238,6 +262,7 @@ function availabilityFor(cfg, dateStr, service, onlyChair, { ignoreLead = false 
 // Booking operations
 
 const CODE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // no 0/O/1/I/L lookalikes
+let bookingQueue = Promise.resolve();
 
 function newCode() {
   const bytes = crypto.randomBytes(5);
@@ -246,19 +271,25 @@ function newCode() {
   return `TC-${code}`;
 }
 
+function serializeBooking(work) {
+  const result = bookingQueue.then(work, work);
+  bookingQueue = result.catch(() => {});
+  return result;
+}
+
 function joinAppointment(cfg, appt) {
   const service = cfg.services.find((s) => s.id === appt.serviceId);
   const chair = cfg.stylists.find((c) => c.id === appt.chairId);
   return {
     ...appt,
     phonePretty: appt.phone ? prettyPhone(appt.phone) : '',
-    serviceName: service ? service.name : appt.serviceId,
-    servicePrice: service ? service.price : null,
-    chairName: chair ? chair.name : appt.chairId,
+    serviceName: appt.serviceName || (service ? service.name : appt.serviceId),
+    servicePrice: appt.servicePrice ?? (service ? service.price : null),
+    chairName: appt.chairName || (chair ? chair.name : appt.chairId),
   };
 }
 
-function createAppointment(cfg, { serviceId, date, time, chairId, name, phone, email, notes, source }) {
+async function createAppointment(cfg, { serviceId, date, time, chairId, name, phone, email, notes, source }) {
   if (!name || !String(name).trim()) throw new ApiError(400, 'A name is required.');
   const normalizedPhone = source === 'walkin' && !phone ? '' : normalizePhone(phone);
 
@@ -270,17 +301,46 @@ function createAppointment(cfg, { serviceId, date, time, chairId, name, phone, e
   const wantChair = chairId && chairId !== 'any' ? chairId : null;
   if (wantChair && !cfg.stylists.some((c) => c.id === wantChair)) throw new ApiError(400, 'Unknown stylist.');
 
-  const openSlots = availabilityFor(cfg, date, service, wantChair, { ignoreLead: source === 'walkin' });
+  const openSlots = await availabilityFor(cfg, date, service, wantChair, { ignoreLead: source === 'walkin' });
   const slot = openSlots.slots.find((s) => s.time === time);
   if (!slot) {
     if (openSlots.closed) throw new ApiError(409, openSlots.reason || 'The shop is closed this day.');
     throw new ApiError(409, 'Sorry — that time was just taken or is unavailable. Please pick another time.');
   }
   const assignedChair = wantChair || slot.chairs[0];
+  const customerName = String(name).trim().slice(0, 80);
+  const customerEmail = email ? String(email).trim().slice(0, 120) : '';
+  const customerNotes = notes ? String(notes).trim().slice(0, 500) : '';
+  const code = newCode();
+  const contact = normalizedPhone || customerEmail
+    ? await ghl.upsertContact({
+        name: customerName,
+        phone: normalizedPhone,
+        email: customerEmail,
+        source: source === 'walkin' ? 'Top Cuts store dashboard' : 'Top Cuts website',
+      })
+    : await ghl.createContact({ name: customerName, source: 'Top Cuts store dashboard' });
+  const timezone = cfg.business.timezone || TIMEZONE;
+  const startTime = zonedDateTimeToIso(date, time, timezone);
+  const endTime = new Date(Date.parse(startTime) + service.minutes * 60_000).toISOString();
+  const event = await ghl.createAppointment({
+    calendarId: ghl.calendarIdForChair(assignedChair),
+    contactId: contact.id,
+    title: `${service.name} — ${customerName}`,
+    description: [
+      `Confirmation: ${code}`,
+      `Service: ${service.name} (${serviceId})`,
+      `Source: ${source === 'walkin' ? 'Store dashboard' : 'Website'}`,
+      customerNotes ? `Notes: ${customerNotes}` : '',
+    ].filter(Boolean).join('\n'),
+    address: cfg.business.address,
+    startTime,
+    endTime,
+  });
 
   const appt = {
     id: crypto.randomUUID(),
-    code: newCode(),
+    code,
     status: 'confirmed',
     source: source || 'online',
     serviceId,
@@ -288,17 +348,19 @@ function createAppointment(cfg, { serviceId, date, time, chairId, name, phone, e
     date,
     time,
     chairId: assignedChair,
-    name: String(name).trim().slice(0, 80),
+    name: customerName,
     phone: normalizedPhone,
-    email: email ? String(email).trim().slice(0, 120) : '',
-    notes: notes ? String(notes).trim().slice(0, 500) : '',
+    email: customerEmail,
+    notes: customerNotes,
+    ghlEventId: event.id,
+    ghlContactId: contact.id,
     createdAt: new Date().toISOString(),
   };
   db.appointments.push(appt);
   return appt;
 }
 
-function cancelAppointment(cfg, appt, { staffBypass = false } = {}) {
+async function cancelAppointment(cfg, appt, { staffBypass = false } = {}) {
   if (appt.status !== 'confirmed') throw new ApiError(409, 'This appointment is not active.');
   if (!staffBypass) {
     const startsAt = localDate(appt.date);
@@ -309,8 +371,79 @@ function cancelAppointment(cfg, appt, { staffBypass = false } = {}) {
       throw new ApiError(409, `Online changes closed for this visit — please call the shop at ${cfg.business.phone}.`);
     }
   }
+  if (appt.ghlEventId) await ghl.cancelAppointment(appt.ghlEventId);
   appt.status = 'cancelled';
   appt.cancelledAt = new Date().toISOString();
+}
+
+function normalizedEventStatus(event) {
+  const status = event.appointmentStatus || event.status || 'confirmed';
+  if (status === 'cancelled' || status === 'invalid') return 'cancelled';
+  if (status === 'completed' || status === 'showed' || status === 'noshow') return 'completed';
+  return 'confirmed';
+}
+
+function projectGhlEvent(cfg, event, chairId) {
+  const timezone = cfg.business.timezone || TIMEZONE;
+  const startAt = new Date(event.startTime);
+  if (Number.isNaN(startAt.getTime())) return null;
+  const local = partsInTimeZone(startAt, timezone);
+  const endAt = new Date(event.endTime);
+  const minutes = Number.isNaN(endAt.getTime())
+    ? 30
+    : Math.max(1, Math.round((endAt.getTime() - startAt.getTime()) / 60_000));
+  const [serviceName, customerName] = String(event.title || 'GHL booking').split(' — ');
+  const noteMatch = String(event.description || '').match(/(?:^|\n)Notes: (.+)/s);
+  return {
+    id: event.id,
+    ghlEventId: event.id,
+    code: `GHL-${String(event.id).slice(-6).toUpperCase()}`,
+    status: normalizedEventStatus(event),
+    source: 'ghl',
+    serviceId: 'ghl-booking',
+    serviceName: serviceName || 'GHL booking',
+    servicePrice: null,
+    minutes,
+    date: local.date,
+    time: local.time,
+    chairId,
+    name: customerName || event.contactName || 'GHL customer',
+    phone: '',
+    email: '',
+    notes: noteMatch ? noteMatch[1].trim() : '',
+    createdAt: event.dateAdded || event.createdAt || new Date().toISOString(),
+  };
+}
+
+async function appointmentsForRange(cfg, from, to) {
+  const timezone = cfg.business.timezone || TIMEZONE;
+  const startMs = Date.parse(zonedDateTimeToIso(from, '00:00', timezone));
+  const endMs = Date.parse(zonedDateTimeToIso(to, '00:00', timezone));
+  const remoteRows = (await Promise.all(cfg.stylists.map(async (chair) => {
+    const events = await ghl.listCalendarEvents({
+      calendarId: ghl.calendarIdForChair(chair.id),
+      startMs,
+      endMs,
+    });
+    return events.map((event) => ({ event, chairId: chair.id }));
+  }))).flat();
+  const localByEvent = new Map(db.appointments
+    .filter((appt) => appt.ghlEventId)
+    .map((appt) => [appt.ghlEventId, appt]));
+  const seen = new Set();
+  const rows = remoteRows.flatMap(({ event, chairId }) => {
+    seen.add(event.id);
+    const local = localByEvent.get(event.id);
+    if (local) return [{ ...local, status: normalizedEventStatus(event) }];
+    const projected = projectGhlEvent(cfg, event, chairId);
+    return projected ? [projected] : [];
+  });
+  for (const local of db.appointments) {
+    if (local.ghlEventId && !seen.has(local.ghlEventId) && local.date >= from && local.date < to) rows.push(local);
+  }
+  return rows
+    .filter((appt) => appt.date >= from && appt.date < to)
+    .sort((left, right) => (left.date + left.time).localeCompare(right.date + right.time));
 }
 
 // ---------------------------------------------------------------------------
@@ -424,7 +557,7 @@ async function handleApi(req, res, url) {
   const route = `${req.method} ${url.pathname}`;
   const q = url.searchParams;
 
-  if (route === 'GET /api/health') return sendJson(res, 200, { ok: true });
+  if (route === 'GET /api/health') return sendJson(res, 200, { ok: true, scheduling: 'ghl', locationId: ghl.locationId });
 
   if (route === 'GET /api/config') return sendJson(res, 200, publicConfig(cfg));
 
@@ -435,12 +568,12 @@ async function handleApi(req, res, url) {
     if (!isDateStr(date)) throw new ApiError(400, 'Invalid date.');
     const service = cfg.services.find((s) => s.id === serviceId);
     if (!service) throw new ApiError(400, 'Unknown service.');
-    return sendJson(res, 200, { date, serviceId, ...availabilityFor(cfg, date, service, chair) });
+    return sendJson(res, 200, { date, serviceId, ...(await availabilityFor(cfg, date, service, chair)) });
   }
 
   if (route === 'POST /api/book') {
     const body = await readJsonBody(req);
-    const appt = createAppointment(cfg, { ...body, source: 'online' });
+    const appt = await serializeBooking(() => createAppointment(cfg, { ...body, source: 'online' }));
     await saveDb();
     return sendJson(res, 201, { appointment: joinAppointment(cfg, appt) });
   }
@@ -469,7 +602,7 @@ async function handleApi(req, res, url) {
       const phone = normalizePhone(body.phone);
       if (appt.phone !== phone) throw new ApiError(403, 'That phone number does not match this booking.');
     }
-    cancelAppointment(cfg, appt);
+    await cancelAppointment(cfg, appt);
     await saveDb();
     return sendJson(res, 200, { appointment: joinAppointment(cfg, appt) });
   }
@@ -487,10 +620,7 @@ async function handleApi(req, res, url) {
     const from = isDateStr(q.get('from')) ? q.get('from') : todayStr();
     const days = Math.min(Math.max(Number(q.get('days')) || 7, 1), 31);
     const to = addDays(from, days);
-    const rows = db.appointments
-      .filter((a) => a.date >= from && a.date < to)
-      .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))
-      .map((a) => joinAppointment(cfg, a));
+    const rows = (await appointmentsForRange(cfg, from, to)).map((appt) => joinAppointment(cfg, appt));
     return sendJson(res, 200, { appointments: rows });
   }
 
@@ -501,7 +631,7 @@ async function handleApi(req, res, url) {
     const nowMin = now.getHours() * 60 + now.getMinutes();
     const nextGrid = Math.ceil((nowMin + 1) / cfg.business.slotIntervalMinutes) * cfg.business.slotIntervalMinutes;
     const fallbackTime = nextGrid < 24 * 60 ? minToHHMM(nextGrid) : undefined;
-    const appt = createAppointment(cfg, {
+    const appt = await serializeBooking(() => createAppointment(cfg, {
       serviceId: body.serviceId,
       date: body.date || todayStr(),
       time: body.time || fallbackTime,
@@ -510,7 +640,7 @@ async function handleApi(req, res, url) {
       phone: body.phone || '',
       notes: body.notes,
       source: 'walkin',
-    });
+    }));
     await saveDb();
     return sendJson(res, 201, { appointment: joinAppointment(cfg, appt) });
   }
@@ -518,10 +648,10 @@ async function handleApi(req, res, url) {
   if (route === 'POST /api/staff/cancel') {
     const body = await readJsonBody(req);
     const appt = db.appointments.find((a) => a.id === body.id);
-    if (!appt) throw new ApiError(404, 'Appointment not found.');
-    cancelAppointment(cfg, appt, { staffBypass: true });
+    if (appt) await cancelAppointment(cfg, appt, { staffBypass: true });
+    else await ghl.cancelAppointment(body.id);
     await saveDb();
-    return sendJson(res, 200, { appointment: joinAppointment(cfg, appt) });
+    return sendJson(res, 200, { appointment: appt ? joinAppointment(cfg, appt) : { id: body.id, status: 'cancelled' } });
   }
 
   // ---- admin (site management; same PIN gate as staff) ----
@@ -554,6 +684,9 @@ async function handleApi(req, res, url) {
 
     const problems = validateConfig(next);
     if (problems.length) throw new ApiError(400, `Invalid ${section}: ${problems.join('; ')}`);
+    if (section === 'stylists') {
+      for (const stylist of next.stylists) ghl.calendarIdForChair(stylist.id);
+    }
 
     if (section === 'services' && Array.isArray(cfg.services)) {
       // Services referenced by upcoming bookings cannot disappear.
@@ -581,6 +714,8 @@ async function handleApi(req, res, url) {
 
 async function main() {
   const cfg = loadConfig();
+  ghl = createGhlClientFromEnv(process.env);
+  await ghl.verifyCalendars();
   await loadDb();
 
   const server = http.createServer(async (req, res) => {
@@ -595,7 +730,7 @@ async function main() {
         sendJson(res, 405, { error: 'Method not allowed' });
       }
     } catch (err) {
-      const status = err instanceof ApiError ? err.status : 500;
+      const status = err instanceof ApiError ? err.status : err instanceof GhlApiError ? 502 : 500;
       if (status === 500) console.error(err);
       if (!res.headersSent) sendJson(res, status, { error: err.message || 'Server error' });
       else res.end();
@@ -606,6 +741,7 @@ async function main() {
 
   server.listen(PORT, HOST, () => {
     console.log(`Top Cuts server running at http://${HOST}:${PORT}`);
+    console.log(`GHL schedule: ${ghl.locationId}`);
     console.log(`Data file: ${DB_FILE}`);
   });
 }

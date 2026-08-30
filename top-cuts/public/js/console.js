@@ -40,9 +40,9 @@ export async function hasLiveSession() {
 }
 
 function sourceBadge(appt) {
-  return appt.source === 'walkin'
-    ? '<span class="badge badge--walkin">Walk-in</span>'
-    : '<span class="badge">Online</span>';
+  if (appt.source === 'walkin') return '<span class="badge badge--walkin">Walk-in</span>';
+  if (appt.source === 'ghl') return '<span class="badge">GHL</span>';
+  return '<span class="badge">Online</span>';
 }
 
 function statusBadge(appt) {

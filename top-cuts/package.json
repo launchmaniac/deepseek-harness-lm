@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "description": "Top Cuts salon website + customer portal + booking (zero dependencies)",
   "scripts": {
-    "start": "node server.js"
+    "start": "node --env-file-if-exists=.env server.js",
+    "test": "node --test"
   }
 }

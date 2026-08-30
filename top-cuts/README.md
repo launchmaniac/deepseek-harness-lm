@@ -1,12 +1,10 @@
 # Top Cuts — Website + Customer Portal + Online Booking
 
-A complete web presence for **Top Cuts Salon**, 33505 Pacific Hwy S, Suite B,
-Federal Way, WA 98003 — a nine-year-old two-chair salon that has run on walk-ins and
-word of mouth until now. Built with **zero npm dependencies**: one Node file serves
-everything.
+A complete web presence for **Top Cuts Salon**, 33505 Pacific Hwy S, Suite B, Federal Way, WA 98003 — a nine-year-old two-chair salon that has run on walk-ins and word of mouth until now. The public booking flow and store dashboard share the Top Cuts GoHighLevel schedule; one zero-dependency Node server provides the website and API.
 
-```
-node server.js          # http://127.0.0.1:8787   (PORT/HOST env to override)
+```sh
+cp .env.example .env    # add the private GHL token and two calendar ids
+npm start               # http://127.0.0.1:8787
 ```
 
 ## What's inside
@@ -18,7 +16,7 @@ node server.js          # http://127.0.0.1:8787   (PORT/HOST env to override)
 | Customer portal | `/portal.html` | Look up visits by phone or TC-code; cancel up to 2h before |
 | Staff console | `/staff.html` | PIN-gated books for the next 7 days + one-tap walk-in logging |
 | **Site admin** | **`/admin.html`** | **PIN-gated management of everything: services/prices, weekly hours, stylists, business info, PIN — plus the same books & walk-in logging** |
-| API | `/api/*` | Config, availability, book, lookup, cancel, staff ops, admin writes |
+| API | `/api/*` | Config, live GHL availability, booking, lookup, cancellation, staff operations, admin writes |
 
 Admin saves go through `PUT /api/admin/config` section-by-section (business / hours /
 stylists / services). Every write is validated with the same rules the server boots
@@ -27,21 +25,17 @@ no restart. Services still referenced by upcoming appointments cannot be deleted
 (the API returns a 409 telling you to rebook first), and `_comment` documentation keys
 in `config.json` survive edits.
 
-## How the books work (the part that matters)
+## GHL scheduling
 
-The availability engine encodes how the shop actually runs:
+GoHighLevel location `x61zv3OlHwut6K4jZqJ3` owns the shared appointment schedule. Thon and Thuy each have a host-free event calendar. The server verifies both calendar ids at startup and refuses to serve a disconnected booking flow.
 
-- **Two chairs** (`stylists`) each keep their own schedule from `hours`.
-- Every service has a real duration (`minutes`). A booking blocks its chair for the
-  service plus a `turnoverBufferMinutes` gap.
-- **Color/chemical services take 75–150 minutes** — booking one reshapes the whole day,
-  which is exactly why the site asks color clients to reserve ahead while cuts stay
-  walk-in friendly. The UI separates the two groups and explains why.
-- Slots are on a 15-min grid (`slotIntervalMinutes`), open `bookingWindowDays` ahead,
-  with a `minLeadMinutes` cushion for same-day online bookings (staff walk-in logging
-  bypasses it — they're logging haircuts happening *now*).
-- Customers can cancel online until `cancelCutoffHours` before the visit; after that
-  the site tells them to call.
+- Website availability reads live events from both chair calendars, applies the service duration and `turnoverBufferMinutes`, and presents the remaining times on the configured 15-minute grid.
+- A customer booking upserts the GHL contact, creates a confirmed appointment on the selected chair calendar, and stores the local confirmation code used by the customer portal.
+- Store-dashboard bookings and walk-ins use the same GHL write path, so they immediately block public availability.
+- GHL notifications are disabled for these writes. SMS is enabled only after messaging registration and a separate notification setup.
+- Color and chemical services retain their 75–150 minute durations; a long appointment blocks the full chair interval in GHL.
+
+Required runtime variables are listed in [`.env.example`](.env.example). `GHL_API_TOKEN` must be a sub-account Private Integration token with `calendars.readonly`, `calendars/events.readonly`, `calendars/events.write`, and `contacts.write`. Never put the token in `config.json` or browser code.
 
 ## Editing things without touching code
 
@@ -55,7 +49,7 @@ Direct file editing also works — everything lives in **`config.json`**:
 - `business` — phone, address, map link, booking window/lead/buffer/cutoff knobs
 - `hours` — per-weekday ranges (`null` = closed); keyed 0=Sunday…6=Saturday
 - `services` — menu with prices, durations, group (`cuts` vs `color`)
-- `stylists` — names/roles/bios (currently placeholders "Chair 1 / Chair 2")
+- `stylists` — names, roles, bios, and stable chair ids mapped to GHL calendars through environment variables
 - `staffPin` — staff console PIN (**change before going live**)
 
 The server validates config at startup and refuses to boot with a clear message if
@@ -67,8 +61,7 @@ something's off. The homepage, booking wizard, hours table — all render from t
 node seed-demo.js     # stop the server first; restart after
 ```
 
-Seeds past visits + upcoming color/cut bookings. Portal demo login: phone `(606) 555-0123`.
-Delete `data/db.json` to reset to an empty book.
+Seeds local portal examples without writing to GHL. Portal demo login: phone `(253) 555-0123`. The store dashboard lists live GHL events, so seeded records do not occupy the shared schedule. Delete `data/db.json` to reset the local portal records.
 
 ## Honest limitations (fix before real launch)
 
@@ -78,14 +71,13 @@ This is a launchable MVP, not a bank:
 - **Portal identity is the phone number / confirmation code** — fine for a salon roster,
   not multi-factor. Cancel-by-code works even without the matching phone.
 - No TLS here — put it behind a reverse proxy or host (see below) before exposing.
-- Data is a single JSON file with atomic writes; plenty for one shop, not for two.
+- Confirmation codes and portal projections use a local JSON file; GHL remains the appointment schedule.
 
-## Deploying later
+## Deployment
 
-Any Node host works (`node server.js`). Natural fits:
+The presentation hostname is `https://topcuts.launchmaniac.com`. Any Node host can run `npm start`; set the environment variables from [`.env.example`](.env.example), bind `HOST=0.0.0.0`, terminate TLS at the host or reverse proxy, and keep `.env` out of source control.
 
-- **Cloudflare Workers + D1** port of the API (the wall-time model maps directly), Pages for the static shell
-- Or a $5 VPS behind Caddy/nginx for automatic HTTPS
+Payments and SMS are disabled independently of booking. Stripe values in `.env.example` are inert placeholders, and `SMS_ENABLED=false` remains in force until messaging registration is complete.
 
 ## Design notes
 
@@ -104,8 +96,4 @@ for small text) instead of the earlier guessed copper.
 
 ## Research
 
-See [RESEARCH.md](RESEARCH.md) — the verified Federal Way identity (phone, hours,
-owners via WA registry + three directory sources), remaining owner-confirmation items,
-and every
-assumption (phone number, exact hours, stylist names, prices) flagged for owner
-confirmation. All assumptions live in `config.json` for one-place editing.
+See [RESEARCH.md](RESEARCH.md) for the verified Federal Way identity, public business details, and remaining owner-confirmation items. Editable operating assumptions live in `config.json`.
